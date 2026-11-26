@@ -44,7 +44,8 @@ npm test
 ## โครงสร้างสำคัญ
 
 - `locales/`: ข้อความแปลแยกตาม locale
-- `i18n-core.js`, `i18n-locales.js`: ระบบ localization เดิมของ upstream ที่ต้องตรวจและต่อยอด
+- `i18n-core.js`, `i18n-locales.js`: ระบบ localization หลักของ upstream (8 ภาษา, UI table 345 keys)
+- `docs/LOCALIZATION_INVENTORY_TH.md`: แผนผัง runtime, call sites, locale counts และลำดับการเพิ่มภาษาไทย
 - `docs/`: แผนโครงการ แนวทางแปล และบันทึกการตรวจสอบ
 - `scripts/`: เครื่องมือตรวจสอบ locale และเตรียม integration
 
@@ -70,7 +71,7 @@ npm test
 | ตรวจสอบ upstream tree และบันทึก baseline SHA | เสร็จ |
 | นำ source upstream เข้ามาใน integration branch | เสร็จ — 242 upstream files, merge ยังอยู่บน integration branch |
 | ตรวจ dependencies และรันทดสอบ upstream | 790 ผ่าน, 1 ไม่ผ่านจาก Swift SDK x86_64 บนเครื่องนี้, 17 skipped |
-| ตรวจสอบ i18n runtime และ locale call sites | เริ่มจาก inventory ขั้นถัดไป |
+| ตรวจสอบ i18n runtime และ locale call sites | เสร็จ — ดู `docs/LOCALIZATION_INVENTORY_TH.md` |
 | แปล UI เป็นภาษาไทย | ยังไม่เริ่ม |
 | ทดสอบบน Antigravity จริง | ยังไม่เริ่ม |
 | สร้างแพ็กเกจติดตั้ง | ยังไม่เริ่ม |

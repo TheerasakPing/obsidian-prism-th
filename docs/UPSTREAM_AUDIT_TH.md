@@ -41,11 +41,12 @@ Release metadata: `1.0.8-beta.3`
 - Local repository: /Volumes/Data/workspace/DWB/obsidian-prism-th
 - Branch: integration/upstream-v1.0.8-beta.3
 - Upstream remote: upstream
+- Origin tracking: `origin/integration/upstream-v1.0.8-beta.3` (push สำเร็จและตั้ง upstream tracking แล้ว)
 - Commit baseline: 41cc4817bf6da79688236f42905450bdf93f40b1
 - วิธีนำเข้า: git merge --allow-unrelated-histories เพื่อรักษา commit provenance
 - Conflict ที่จัดการ: .gitignore, README.md, package.json
 - ย้าย community contribution guide ไป docs/CONTRIBUTING_TH.md เพื่อให้ผ่าน upstream repository hygiene gate
-- upstream source files ที่นำเข้ามาครบตาม tree; ยังไม่ได้ push integration branch ในเวลาที่จัดทำรายงานนี้
+- upstream source files ที่นำเข้ามาครบตาม tree; integration branch ถูก push ไป GitHub แล้วและตั้ง upstream tracking สำเร็จ
 
 package.json คง package identity และ version ของ upstream (obsidian-prism, 1.0.8-beta.3) เพื่อรักษาความเข้ากันได้กับ plugin manifest, installer และ updater พร้อมเพิ่ม validate:locales script และ metadata ของ Thai Edition
 
@@ -98,7 +99,7 @@ Failure เดียว:
 - [x] locale validator ผ่าน
 - [x] regression suite รันครบ 808 tests; มี 1 environment-specific macOS universal-link failure ที่ต้องแก้ toolchain ก่อน release
 - [ ] macOS universal build ผ่านบน Xcode toolchain ที่รองรับ x86_64
-- [ ] source-to-localization inventory ก่อนเริ่มแก้ UI
+- [x] source-to-localization inventory ก่อนเริ่มแก้ UI (`docs/LOCALIZATION_INVENTORY_TH.md`)
 
 ## 7. สคริปต์เตรียม import
 

@@ -3,7 +3,7 @@
 - Repository: `TheerasakPing/obsidian-prism-th`
 - Upstream: `RMvdesi/obsidian-prism`
 - เป้าหมายภาษา: Thai-first (`th-TH`) พร้อม English (`en-US`)
-- สถานะ: Initial planning / repository scaffold
+- สถานะ: Upstream integration pushed; localization architecture inventory complete; Thai UI implementation not yet started
 
 ## 1. วิสัยทัศน์
 
@@ -61,10 +61,11 @@
 - [x] นำ source upstream commit 41cc4817bf6da79688236f42905450bdf93f40b1 เข้ามาใน integration branch โดยรักษา Git merge provenance
 - [x] ตรวจ package scripts, dependency metadata, installers และ test suite inventory
 - [x] รันทดสอบ upstream suite: 790 passed / 1 failed (local Swift SDK lacks x86_64 compatibility libraries) / 17 skipped
-- [ ] จัดทำ source-to-localization inventory (ขั้นตอนถัดไป)
+- [x] จัดทำ source-to-localization inventory (`docs/LOCALIZATION_INVENTORY_TH.md`)
 
 ### Phase 2 — Localization architecture
-- [ ] ระบุ i18n runtime และจุดเรียกข้อความทั้งหมด
+- [x] ระบุ i18n runtime และจุดเรียกข้อความหลัก; บันทึก architecture map และ counts ใน `docs/LOCALIZATION_INVENTORY_TH.md`
+- [ ] ตัดสินใจ canonical locale source (JS table หรือ JSON catalog) และกำหนด fallback contract
 - [ ] เพิ่ม locale resolver โดย default เป็น `th-TH`
 - [ ] เพิ่ม fallback `en-US`
 - [ ] ย้ายข้อความ hard-coded เป็น locale keys ทีละส่วน
