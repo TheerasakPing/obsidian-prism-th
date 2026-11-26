@@ -83,3 +83,15 @@ npm run validate:locales
 - [ ] `npm test` ผ่าน พร้อมบันทึก log จริง
 - [ ] locale validator ผ่าน
 - [ ] มี source-to-localization inventory ก่อนเริ่มแก้ UI
+
+
+## 7. สคริปต์เตรียม import
+
+เพิ่ม `scripts/prepare-upstream-import.sh` เพื่อเตรียม import แบบมี guard:
+- บังคับให้รันจาก clone ของ Thai Edition บน branch `main`
+- ปฏิเสธเมื่อ working tree ไม่สะอาด
+- fetch upstream และตรวจว่า SHA ตรงกับ baseline ที่ audit ไว้
+- สร้าง branch แยก `integration/upstream-v1.0.8-beta.3`
+- merge แบบไม่ commit เพื่อให้ตรวจและแก้ conflict ด้วยคนก่อน
+
+สคริปต์นี้ **ยังไม่ได้ถูก execute** ใน environment ของผู้ใช้ และจะไม่ push หรือสร้าง release เอง การ execute ต้องทำจาก local clone ที่มี Git พร้อมตรวจ conflict ก่อน commit
