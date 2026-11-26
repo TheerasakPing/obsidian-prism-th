@@ -182,7 +182,8 @@ ja|サブエージェント|トークン||入力|出力|残枠少|残り少な�
 ko|서브에이전트|토큰||입력|출력|할당량 부족|잔여량 적음|여유|다음은 무엇을 할까요|||보관 포함|현재만|현재|보관|로컬만|로컬 저장 세션만 집계 (클라우드 제외)
 es|subagentes|tokens||entr.|sal.|Cuota baja|Casi agotada|Óptima|¿Qué hacemos ahora|||Todo|Actuales|Activas|Archiv.|Solo local|Solo sesiones locales guardadas (sin nube)
 fr|sous-agents|tokens||entr.|sort.|Quota bas|Presque épuisé|Optimal|Que faisons-nous ensuite|| ?|Tout|Actuelles|Actives|Archiv.|Local|Sessions locales enregistrées uniquement (hors cloud)
-de|Subagenten|Token||Ein|Aus|Wenig Kontingent|Wird knapp|Reichlich|Was steht als Nächstes an|||Alle|Aktuell|Aktiv|Archiv.|Nur lokal|Nur lokal gespeicherte Sitzungen (ohne Cloud)`.split('\n').map((s) => { const a = s.split('|'); return [a[0], [a[1], a[2], a[3] || 'Swarm', a[4], a[5], a[6], a[7], a[8], a[9], a[10] || ', ', a[11] || '?', ...a.slice(12)]]; })
+de|Subagenten|Token||Ein|Aus|Wenig Kontingent|Wird knapp|Reichlich|Was steht als Nächstes an|||Alle|Aktuell|Aktiv|Archiv.|Nur lokal|Nur lokal gespeicherte Sitzungen (ohne Cloud)
+th-TH|เอเจนต์ย่อย|โทเคน|Swarm|เข้า|ออก|โควตาเหลือน้อย|ใกล้หมด|เหลือเพียงพอ|วันนี้อยากเริ่มทำอะไรดี|,|?|รวมรายการเก็บถาวร|เฉพาะปัจจุบัน|กำลังใช้งาน|เก็บถาวร|เฉพาะในเครื่อง|นับเฉพาะเซสชันที่บันทึกไว้ในเครื่อง (ไม่รวมคลาวด์)`.split('\n').map((s) => { const a = s.split('|'); return [a[0], [a[1], a[2], a[3] || 'Swarm', a[4], a[5], a[6], a[7], a[8], a[9], a[10] || ', ', a[11] || '?', ...a.slice(12)]]; })
   );
   const normStudioLang = (l) => {
     const c = G.__agCsI18nCore?.normalizeLanguage;
@@ -191,6 +192,7 @@ de|Subagenten|Token||Ein|Aus|Wenig Kontingent|Wird knapp|Reichlich|Was steht als
     if (STUDIO_FB[s]) return s;
     const lo = s.toLowerCase();
     if (/^(?:zh|yue)/.test(lo)) return /[-_](?:tw|hant|hk|mo)/.test(lo) ? 'zh-TW' : 'zh-CN';
+    if (/^th(?:-|$)/.test(lo)) return 'th-TH';
     return lo.match(/^(ja|ko|es|fr|de)/)?.[1] || 'en';
   };
   const studioFb = (l) => STUDIO_FB[normStudioLang(l)] || STUDIO_FB.en;

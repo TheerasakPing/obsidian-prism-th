@@ -236,7 +236,7 @@ function createMiniDom() {
   };
 }
 
-test('normalizeLanguage, LANG_OPTIONS, and UI_TABLE support all 8 required languages + yue migration', () => {
+test('normalizeLanguage, LANG_OPTIONS, and UI_TABLE support all 9 locales + yue migration', () => {
   assert.deepEqual(
     i18nCore.LANG_OPTIONS.map((o) => [o.id, o.label]),
     [
@@ -248,6 +248,7 @@ test('normalizeLanguage, LANG_OPTIONS, and UI_TABLE support all 8 required langu
       ['es', 'Español'],
       ['fr', 'Français'],
       ['de', 'Deutsch'],
+      ['th-TH', 'ไทย'],
     ]
   );
 
@@ -265,16 +266,21 @@ test('normalizeLanguage, LANG_OPTIONS, and UI_TABLE support all 8 required langu
   assert.equal(i18nCore.normalizeLanguage('es-ES'), 'es');
   assert.equal(i18nCore.normalizeLanguage('fr-FR'), 'fr');
   assert.equal(i18nCore.normalizeLanguage('de-DE'), 'de');
+  assert.equal(i18nCore.normalizeLanguage('th'), 'th-TH');
+  assert.equal(i18nCore.normalizeLanguage('th_TH.UTF-8'), 'th-TH');
+  assert.equal(i18nCore.htmlLangAttr('th'), 'th-TH');
+  assert.equal(i18nCore.intlLocale('th'), 'th-TH');
   assert.equal(i18nCore.normalizeLanguage(true), 'zh-CN');
   assert.equal(i18nCore.normalizeLanguage(false), 'en');
   for (const cjkLang of ['zh-CN', 'zh-TW', 'ja', 'ko']) {
     assert.equal(i18nCore.isCjkLanguage(cjkLang), true, `isCjkLanguage(${cjkLang}) must be true`);
   }
-  for (const latinLang of ['en', 'es', 'fr', 'de']) {
+  assert.equal(i18nCore.isCjkLanguage('th-TH'), false);
+  for (const latinLang of ['en', 'es', 'fr', 'de', 'th-TH']) {
     assert.equal(i18nCore.isCjkLanguage(latinLang), false, `isCjkLanguage(${latinLang}) must be false`);
   }
 
-  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const ui = i18nLocales.getUiStrings(lang);
     assert.ok(ui.setLanguageTitle);
     assert.ok(ui.setLanguageDesc);
@@ -393,7 +399,7 @@ test('v1.0.1 i18n keys cover all 8 languages for scene presets, 6 new config key
     'permAutoDesc',
     'permTurboDesc',
   ];
-  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const ui = i18nLocales.getUiStrings(lang);
     for (const k of requiredNewKeys) {
       assert.ok(typeof ui[k] === 'string' && ui[k].trim().length > 0, `Missing ${k} for language ${lang}`);
@@ -522,7 +528,7 @@ test('settings-panel schema, scene presets, strict apiKey-stripping JSON export,
   assert.equal(boolAlias.settings.sidebarNavFold, 'on');
   assert.equal(boolAlias.settings.linkTarget, 'builtin');
   assert.equal(boolAlias.settings.mascot, 'crab');
-  assert.ok(['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'].includes(boolAlias.settings.language));
+  assert.ok(['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'].includes(boolAlias.settings.language));
 
   assert.equal(i18nLocales.getUiStrings('zh-CN').presetUltra, '完整光效');
   assert.equal(i18nLocales.getUiStrings('en').presetUltra, 'Full Visuals');
@@ -615,12 +621,12 @@ test('UX-1 / OP-5 / UX-4 / UX-9 regressions: async thought config export, tech->
   }
 });
 
-test('PR #50 & PR #41/#49: DEFAULT_CONFIG & config.example.json default to auto, 8-lang runtime resolves navigator.languages[0] with en fallback, and 6 new home keys registered cleanly', () => {
-  assert.equal(cdp.DEFAULT_CONFIG.language, 'auto');
-  assert.equal(cdp.DEFAULT_CONFIG.lang, 'auto');
+test('Thai Edition defaults to th-TH; auto import still resolves navigator.languages[0], and runtime locale keys remain registered', () => {
+  assert.equal(cdp.DEFAULT_CONFIG.language, 'th-TH');
+  assert.equal(cdp.DEFAULT_CONFIG.lang, 'th-TH');
   const exCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'config.example.json'), 'utf8'));
-  assert.equal(exCfg.language, 'auto');
-  assert.equal(exCfg.lang, 'auto');
+  assert.equal(exCfg.language, 'th-TH');
+  assert.equal(exCfg.lang, 'th-TH');
 
   // PR #41 & PR #49: 6 new runtime UI keys present in i18n-locales (8-lang, 0 CJK in en/es/fr/de) AND in Channel 1 __uiSlice
   const homeKeys = [
@@ -827,10 +833,11 @@ test('PR #50 & PR #41/#49: DEFAULT_CONFIG & config.example.json default to auto,
     sandbox.globalThis = sandbox;
     doc.defaultView = sandbox;
 
-    const expr = cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, ...(cfgOverride || {}) });
+    const autoDefaults = cfgOverride || { language: 'auto', lang: 'auto' };
+    const expr = cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, ...autoDefaults });
     const res = vm.runInNewContext(expr, sandbox);
     assert.equal(res.status, 'ok');
-    vm.runInNewContext(cdp.buildHomeStudioChannelExpression({ ...cdp.DEFAULT_CONFIG, ...(cfgOverride || {}) }), sandbox);
+    vm.runInNewContext(cdp.buildHomeStudioChannelExpression({ ...cdp.DEFAULT_CONFIG, ...autoDefaults }), sandbox);
     vm.runInNewContext(settingsCh9Expr, sandbox);
     const sec = doc.getElementById('ag-cs-settings-sec');
     sec?.__ensureFoldBody?.();

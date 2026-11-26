@@ -2,7 +2,7 @@
   if (typeof module === 'object' && module.exports) module.exports = factory();
   else root.__agCsLocales = factory();
 })(typeof globalThis !== 'undefined' ? globalThis : window, function () {
-  const LANG_IDS = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'];
+  const LANG_IDS = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'];
 
   const LANG_INDEX = {
     'zh-CN': 0,
@@ -13,6 +13,7 @@
     es: 5,
     fr: 6,
     de: 7,
+    'th-TH': 8,
   };
 
   function resolveLangId(lang) {
@@ -29,6 +30,7 @@
     if (clean === 'es' || clean.startsWith('es-')) return 'es';
     if (clean === 'fr' || clean.startsWith('fr-')) return 'fr';
     if (clean === 'de' || clean.startsWith('de-')) return 'de';
+    if (clean === 'th' || clean.startsWith('th-') || clean === 'thai') return 'th-TH';
     if (clean === 'yue' || clean.startsWith('yue-') || clean === 'zh-yue') return 'zh-CN';
     if (
       clean === 'zh-tw' ||
@@ -47,11 +49,12 @@
   }
 
   function pick(lang, arr) {
-    const idx = Object.prototype.hasOwnProperty.call(LANG_INDEX, lang) ? LANG_INDEX[lang] : 2;
+    const norm = resolveLangId(lang);
+    const idx = Object.prototype.hasOwnProperty.call(LANG_INDEX, norm) ? LANG_INDEX[norm] : 2;
     return arr[idx] !== undefined ? arr[idx] : arr[2];
   }
 
-  // Unified 8-language table for Obsidian Prism UI [zh-CN, zh-TW, en, ja, ko, es, fr, de]
+  // Unified locale table for Obsidian Prism UI [zh-CN, zh-TW, en, ja, ko, es, fr, de, th-TH]
   const UI_TABLE = {
     // ── Brand Header & Collapsible Banner ────────────────────────────────────
     sectionTitle: [
@@ -1723,6 +1726,264 @@
     omniForward: ['前进', '前進', 'Forward', '進む', '앞으로', 'Adelante', 'Suivant', 'Vor'],
   };
 
+
+  // Thai Edition translations. Untranslated rows intentionally fall back to English
+  // until the full 345-key editorial translation pass is completed.
+  const THAI_UI = {
+    sectionTitle: 'Obsidian Prism · ฉบับภาษาไทย',
+    sectionSubtitle: 'ชุดเครื่องมือเพิ่มประสิทธิภาพและปรับแต่งหน้าตาสำหรับ Antigravity',
+    foldExpandHint: 'คลิกเพื่อขยายการตั้งค่าหน้าตาและฟีเจอร์',
+    foldCollapseHint: 'คลิกเพื่อยุบแผงการตั้งค่า',
+    aboutGroupTitle: 'เกี่ยวกับ · อัปเดต · เครดิตโอเพนซอร์ส',
+    aboutRepoSyncTitle: 'สถานะและการซิงก์ Git Repository',
+    aboutRepoSyncBtn: 'ตรวจสอบ / ซิงก์การอัปเดต Git',
+    aboutRepoChecking: 'กำลังตรวจสอบสถานะ Git…',
+    aboutRepoUpToDate: 'Repository เป็นเวอร์ชันล่าสุดแล้ว',
+    aboutRepoUpdated: 'ดึง commit ล่าสุดและโหลด UI ใหม่แล้ว',
+    aboutRepoNoRemote: 'Git Repository ในเครื่อง (ยังไม่ได้ตั้งค่า remote)',
+    setAutoUpdateTitle: 'อัปเดตอัตโนมัติ',
+    setAutoUpdateDesc: 'ปิดไว้เป็นค่าเริ่มต้น จะตรวจสอบเมื่อสั่งด้วยตนเองเท่านั้น; เมื่อเปิด ระบบจะตรวจสอบเป็นระยะและโหลด UI ใหม่อัตโนมัติ',
+    setUpdateChannelTitle: 'ช่องทางการอัปเดต',
+    setUpdateChannelDesc: 'รับเฉพาะรุ่นเสถียร หรือเลือกใช้รุ่นทดสอบ -beta / -rc',
+    optChannelStable: 'รุ่นเสถียร',
+    optChannelBeta: 'รุ่นเบตา',
+    updCheckBtn: 'ตรวจสอบอัปเดต',
+    updApplyBtn: 'อัปเดตทันที (โหลด UI ใหม่)',
+    updUpToDate: 'เป็นเวอร์ชันล่าสุดแล้ว v{0}',
+    updAvailTpl: 'มีเวอร์ชัน v{0} พร้อมอัปเดต',
+    updUpdating: 'กำลังดาวน์โหลดและโหลด UI ใหม่…',
+    updHotDone: 'โหลด UI ใหม่แล้ว (กด Ctrl+R / Cmd+R หรือเริ่มระบบใหม่หากมีการเปลี่ยน Core)',
+    updManualHint: 'ดาวน์โหลดตัวติดตั้งจากหน้า Release เพื่ออัปเดตเป็น v{0}',
+    updHotNote: 'การโหลด UI ใหม่มีผลทันที; หากแก้ไข Core, style หรือ background service ต้องรีโหลดด้วย Ctrl+R / Cmd+R หรือเริ่ม Antigravity ใหม่',
+    storageHealthTitle: 'สุขภาพฐานข้อมูลบทสนทนา',
+    storageHealthIdle: 'ตรวจสอบขนาดฐานข้อมูลที่อาจเพิ่มขึ้นโดยอัตโนมัติสำหรับ background service',
+    storageArchiveBtn: 'เตรียมเก็บถาวร',
+    storageOk: 'ปกติ',
+    storageWarn: 'แนะนำให้เก็บถาวร',
+    studioPlaceholder: 'พิมพ์…',
+    tabOverview: 'ภาพรวม',
+    tabModels: 'โมเดล',
+    kpiSessions: 'แชต',
+    kpiCalls: 'แชต',
+    kpiTokens: 'โทเคน',
+    kpiDays: 'วัน',
+    kpiFavModel: 'โมเดล',
+    noModelUsage: 'ยังไม่มี',
+    sessionsUnit: 'แชต',
+    subagentsUnit: 'เอเจนต์',
+    swarmBadge: 'Swarm',
+    tokensInShort: 'เข้า',
+    tokensOutShort: 'ออก',
+    quotaJustNow: 'เมื่อกี้',
+    tokenUnit: 'โทเคน',
+    showLess: 'ย่อ',
+    thinkingEllipsis: 'คิด…',
+    kpiCacheHit: 'Cache Hit',
+    cacheRead: 'อ่าน Cache',
+    cacheShort: 'Cache',
+    quotaPoolsTitle: 'โควตา',
+    quotaLoading: 'โควตา',
+    weeklyLabel: 'สัปดาห์',
+    refreshBtnTitle: 'รีเฟรช',
+    tabQuotas: 'โควตา',
+    effortTitle: 'ระดับคิด',
+    grpAppearance: 'หน้าตาและการจัดวาง',
+    grpInteraction: 'ช่องพิมพ์ · แถบด้านข้าง · มาสคอต',
+    groupModules: 'โมดูลเครื่องมือ',
+    grpBeta: 'ฟีเจอร์เบตา',
+    onLabel: 'เปิด',
+    offLabel: 'ปิด',
+    optAutoCoexist: 'อัตโนมัติ',
+    setLanguageTitle: 'ภาษาของส่วนติดต่อ',
+    setLanguageDesc: 'เปลี่ยนภาษาที่ใช้แสดงผลในแดชบอร์ดและหน้าตั้งค่าของ Obsidian Prism',
+    setHostI18nTitle: 'การแปลภาษาหน้าตา Host (zh-CN)',
+    optHostI18nAuto: 'อัตโนมัติ',
+    optHostI18nOn: 'เปิด (zh-CN)',
+    optHostI18nOff: 'ภาษาอังกฤษดั้งเดิม',
+    setHomeLayoutTitle: 'รูปแบบหน้าแรก',
+    setHomeLayoutDesc: 'เลือกรูปแบบหน้าเริ่มต้นสำหรับการสนทนาใหม่',
+    optStudio: 'Studio',
+    optClassic: 'คลาสสิก',
+    optNativeOff: 'ปิด',
+    grpThought: 'การแปลและปรับสำนวน Thought',
+    cfgToolbarTitle: 'สำรองและรีเซ็ตการตั้งค่า',
+    cfgExportBtn: 'ส่งออก JSON',
+    cfgImportBtn: 'นำเข้า JSON',
+    cfgResetBtn: 'คืนค่าเริ่มต้น',
+    cfgExportOk: 'ส่งออกการตั้งค่าที่ล้าง API keys แล้ว',
+    cfgImportOk: 'ตรวจสอบและกู้คืนการตั้งค่าแล้ว',
+    cfgImportErr: 'JSON ไม่ถูกต้องหรือไม่มีคีย์การตั้งค่าที่รองรับ',
+    cfgResetOk: 'คืนค่าการตั้งค่าทั้งหมดแล้ว',
+    omniReload: 'รีโหลด',
+    omniBack: 'กลับ',
+    omniForward: 'ถัดไป',
+    omniCopyText: 'คัดลอก',
+    omniCopyLink: 'คัดลอก URL',
+    omniOpenBuiltin: 'เปิดแถบ',
+    omniOpenExternal: 'เปิดแอป',
+    omniOpenBrowser: 'เปิดเว็บ',
+    inlineDiffLoading: 'โหลด diff…',
+    sidebarMoreLabel: 'เพิ่ม',
+    sidebarLessLabel: 'ย่อ',
+    homeScopeAll: 'ทั้งหมด',
+    homeScopeActive: 'ปัจจุบัน',
+    homeScopeActiveCount: 'ใช้งาน',
+    homeScopeArchivedCount: 'เก็บถาวร',
+    homeLocalOnlyTag: 'ในเครื่อง',
+    homeLocalScopeNote: 'แชตเครื่อง',
+    workspaceAll: 'ทุกโปรเจกต์',
+    quotaEmptyHint: 'รอโควตา',
+    fiveHourLabel: 'รอบ 5 ชม.',
+    presetBarLabel: 'ชุดค่าฉาก',
+    presetUltra: 'ภาพเต็มรูปแบบ',
+    presetFocus: 'โฟกัสลึก',
+    presetEco: 'ประหยัดทรัพยากร',
+  };
+  Object.assign(THAI_UI, {
+    storageSummaryTpl: '{0} (หลัก {1} · เอเจนต์ {2} / {3}) · {4}',
+    storageReadyTpl: 'สคริปต์พร้อมแล้ว (เอเจนต์ {0} / {1}) ปิด Antigravity แล้วรัน: {2}',
+    storageGuardTitle: 'ระบบป้องกันหน่วยความจำและฐานข้อมูลบทสนทนา',
+    storageGuardSummaryTpl: 'ฐานข้อมูล {0} · เอเจนต์ที่เก็บถาวรได้ {1} รายการ ({2}) · RAM เบื้องหลัง {3} (เก็บแชตหลัก 100% และไม่ลบข้อมูล)',
+    storageGuardEnableAutoExitBtn: 'เปิดเก็บถาวรอัตโนมัติเมื่อออก',
+    storageGuardSnooze24hBtn: 'พักการแจ้งเตือน 24 ชั่วโมง',
+    storageGuardBusyMsg: 'ขณะนี้ AI หรือ Swarm กำลังทำงาน โปรดลองอีกครั้งเมื่อระบบว่าง',
+    storageAutoExitTitle: 'เก็บถาวรอัตโนมัติเมื่อออก',
+    storageAutoExitDesc: 'ย้ายเอเจนต์ที่ทำงานเสร็จแล้ว (>2 ชม.) ไปเก็บแบบออฟไลน์ 4 วินาทีหลัง Antigravity และ background service ปิดลง (ไม่แตะต้องแชตหลักและไม่ลบข้อมูล)',
+    storageAutoExitOff: 'ปิด (ค่าเริ่มต้น)', storageAutoExitOn: 'เปิด',
+    storageAutoExitEnabledMsg: 'เปิดการเก็บถาวรอัตโนมัติเมื่อออกแล้ว',
+    storageArchiveRestartBtn: 'เก็บถาวรและเริ่มระบบใหม่',
+    storageArchiveRestartConfirmDesc: 'ระบบจะ: 1) บันทึกสถิติการใช้โทเคน 2) ปิด Antigravity อย่างปลอดภัยจนกว่า background service จะหยุด 3) ย้ายเอเจนต์ที่เสร็จแล้ว (>2 ชม.) โดยไม่ลบไฟล์ใด ๆ (เก็บแชตหลักทั้งหมด) 4) เปิดโปรแกรมใหม่โดยอัตโนมัติ',
+    storageArchiveRestartConfirmBtn: 'ยืนยันและเริ่มใหม่',
+    storageArchiveRestartRunning: 'กำลังบันทึกสถิติการใช้งานและเริ่มระบบเก็บถาวรอย่างปลอดภัย…',
+    storageArchiveRestartScheduled: 'เริ่มเก็บถาวรแบบออฟไลน์อย่างปลอดภัยแล้ว Antigravity จะปิดและเปิดใหม่โดยอัตโนมัติ',
+    storageRestoreBtn: 'กู้คืนรายการเก็บถาวร',
+    storageRestoreConfirmDesc: 'ระบบจะปิด Antigravity อย่างปลอดภัย กู้คืนชุดล่าสุด ({0}) โดยไม่สูญเสียข้อมูล แล้วเปิดโปรแกรมใหม่',
+    storageRestoreConfirmBtn: 'ยืนยันการกู้คืน',
+    storageRestoreScheduled: 'กำหนดการกู้คืนแบบไม่สูญเสียข้อมูลแล้ว Antigravity จะเปิดใหม่โดยอัตโนมัติ',
+    storageRestoreEmpty: 'ยังไม่มีชุดข้อมูลที่เก็บถาวร', storageLsMemTpl: 'RAM เบื้องหลัง {0}',
+    goMemLimitTitle: 'จำกัดหน่วยความจำของโปรเซสเบื้องหลัง (Go GOMEMLIMIT · ไม่บังคับ)',
+    goMemLimitDesc: 'ใช้ตัวแปรสภาพแวดล้อม GOMEMLIMIT ระดับผู้ใช้ของ Go 1.19+ เพื่อจำกัด heap ของ background service โดยไม่แก้ไขไบนารีทางการ มีผลหลังเริ่ม Antigravity ใหม่',
+    goMemLimitUnset: 'ไม่ได้ตั้งค่า (ค่าเริ่มต้นของระบบ)', goMemLimitActiveTpl: 'ตัวแปรสภาพแวดล้อมผู้ใช้: {0}',
+    goMemLimitRestartNote: '(เริ่ม Antigravity ใหม่เพื่อให้มีผล)', goMemLimitApplyBtn: 'นำไปใช้', goMemLimitClearBtn: 'ล้างค่า',
+    goMemLimitAppliedTpl: 'ตั้งค่า GOMEMLIMIT={0} แล้ว; เริ่ม Antigravity ใหม่เพื่อให้มีผล',
+    goMemLimitCleared: 'ล้างค่า GOMEMLIMIT แล้ว; เริ่ม Antigravity ใหม่เพื่อกลับไปใช้ค่าเริ่มต้น',
+    aboutCreditsTitle: 'เครดิตโอเพนซอร์สต้นทางและแรงบันดาลใจ',
+    aboutLicenseTitle: 'ใบอนุญาต GPL-3.0 และประกาศการระบุที่มา',
+    aboutDisclaimer: 'Obsidian Prism เป็นโครงการโอเพนซอร์สอิสระ ไม่มีส่วนเกี่ยวข้องหรือได้รับการรับรองจาก Google LLC',
+    uninstallBtn: 'ถอนการติดตั้ง Prism', uninstallPurge: 'ล้างการตั้งค่า คีย์ และแคช',
+    uninstallKeepNote: 'เก็บแชต conversations_archive, Spark และคลังความรู้ไว้',
+    uninstallCancelBtn: 'ยกเลิก', uninstallConfirmBtn: 'ยืนยัน', uninstallDone: 'กำลังถอนการติดตั้งและคืนค่าหน้าตาเดิม',
+    betaPlaceholderNotice: 'หมายเหตุ: ส่วนนี้มีฟีเจอร์ทดลองซึ่งปิดไว้เป็นค่าเริ่มต้น และอาจเปลี่ยนแปลงได้ในรุ่นถัดไป',
+    setHostI18nDesc: 'อัตโนมัติ: ใช้เฉพาะ zh-CN และยอมให้ปลั๊กอินภายนอกทำงานแทนได้; เปิด: บังคับใช้ zh-CN ในตัว; ปิด: คืนค่าหน้าตาภาษาอังกฤษดั้งเดิมและระงับ overlay แปลภาษาจากภายนอกอย่างระมัดระวัง โดยไม่แก้ไขแพ็กเกจ Host',
+    hostLocStatusEnforced: 'กำลังบังคับใช้หน้าตาภาษาอังกฤษดั้งเดิม',
+    hostLocStatusBlocked: 'สคริปต์แปลภาษาภายนอกยังเขียนทับหน้าจออยู่ ระบบป้องกันการวนซ้ำทำงานแล้ว โปรดพิจารณาปิดส่วนขยายแปลภาษาในเมนู Extensions',
+    hostI18nYieldHint: 'ตรวจพบการแปลภาษาจากภายนอก — เปลี่ยนให้ส่วนขยายภายนอกทำงานแทนอัตโนมัติ',
+    hostI18nOffExtHint: 'ปิดการแปลภาษา Host ของ Prism แล้ว แต่ยังพบปลั๊กอินแปลภาษาภายนอกหรือการแก้ไข Client ทำงานอยู่',
+    setPaletteTitle: 'ชุดสี', setPaletteDesc: 'ใช้ธีมของ Host หรือเลือกชุดสี Obsidian / Alabaster Warm ที่ปรับแต่งอย่างประณีต',
+    optObsidian: 'Obsidian', optWarm: 'Alabaster Warm', optClaude: 'Alabaster Warm', optHost: 'ตามธีม Host',
+    setLightPresetTitle: 'ชุดพื้นผิวโหมดสว่าง', setLightPresetDesc: 'ปรับระดับพื้นผิว ความโปร่งใสของกระจก และโทนสีในโหมดสว่าง',
+    optLightCrystal: 'Daylight Crystal', optLightAlabaster: 'Warm Alabaster',
+    lightPresetHintDark: 'ทำงานในโหมดสว่าง — เปลี่ยนธีม Host เป็น Light เพื่อดูตัวอย่าง',
+    lightPresetHintWarm: 'ชุดสี Alabaster Warm จะใช้พื้นผิวโทนผ้าลินินโดยอัตโนมัติ',
+    lightPresetHintHost: 'กำลังใช้ธีม Host — เลือกชุดสี Obsidian ในโหมด Light เพื่อปรับแต่ง',
+    setTelemetryTitle: 'แถบ Telemetry และ Context HUD ด้านล่าง',
+    setTelemetryDesc: 'แสดงความเร็ว แคช และปริมาณ Context; ใช้งานร่วมกับปลั๊กอินภายนอกได้',
+    setEffortSliderTitle: 'แถบปรับระดับคิดของโมเดล',
+    setEffortSliderDesc: 'เพิ่มแถบปรับระดับคิดไว้ในเมนูโมเดล',
+    setEffortMemoryTitle: 'จดจำระดับคิดแยกตามโมเดล',
+    setEffortMemoryDesc: 'จดจำระดับคิดล่าสุดของแต่ละโมเดลและ Orchestrator planner แม้ปิดแถบปรับระดับแล้ว',
+    setPeriodicPickerTitle: 'ตัวเลือกตารางธาตุ',
+    setPeriodicPickerDesc: 'กดค้างที่ตัวเลือกโมเดลด้านล่างเพื่อเปิดตารางธาตุ 3 มิติ; คลิกสั้นเพื่อเปิดรายการปกติ',
+    setOmniTitle: 'ตัวดูไฟล์และเมนูบริบท',
+    setOmniDesc: 'เปิดการจัดการลิงก์ คำสั่งเมนูบริบทของไฟล์ และการแสดงตัวอย่างสื่อ/ข้อมูลในแผงด้านข้าง',
+    setLinkTargetTitle: 'ตำแหน่งเปิดลิงก์เว็บ',
+    setLinkTargetDesc: 'กำหนดตำแหน่งเริ่มต้นเมื่อคลิกลิงก์เว็บ (กด Ctrl/Cmd ค้างพร้อมคลิกเพื่อสลับ)',
+    setSidebarStudioTitle: 'โหมดแชต (เบตา)',
+    setSidebarStudioDesc: 'ฟีเจอร์ทดลอง (ปิดเป็นค่าเริ่มต้น) เพิ่มตัวสลับ Code / Chat ในแถบด้านข้างสำหรับแชตทั่วไปและงานเอกสาร',
+    optLinkBuiltin: 'แผงด้านข้าง', optLinkExternal: 'เบราว์เซอร์ของระบบ',
+    setLogoInkTitle: 'สีโลโก้', setLogoInkDesc: 'ปรับโทนสีของสัญลักษณ์ต้อนรับบนหน้าแรก', optAccent: 'สีเน้น', optForeground: 'สีตัวอักษร',
+    setSidebarTitle: 'ปรับรูปแบบแถบด้านข้าง', setSidebarDesc: 'ใช้ความสูงแถวและพื้นหลังเมื่อชี้เมาส์ที่ปรับแต่งแล้วในแถบด้านข้าง',
+    setSidebarCompactTitle: 'แถบด้านข้างแบบกะทัดรัด', setSidebarCompactDesc: 'ลดความสูงของแถวในแถบด้านข้างจาก 28px เหลือ 24px',
+    setComposerTitle: 'ปรับรูปแบบช่องเขียนแชต', setComposerDesc: 'ช่องป้อนแชตแบบมินิมอลพร้อมส่วนท้ายพื้นที่ทำงานที่เรียบสะอาด',
+    setPlaceholderTitle: 'รูปแบบแชตตัวอย่าง', setPlaceholderDesc: 'สลับระหว่างแชตแนะนำของ Studio กับค่าเริ่มต้นของ Host', optPlaceholderHost: 'Host',
+    setSmoothCaretTitle: 'เคอร์เซอร์พิมพ์แบบลื่นไหล', setSmoothCaretDesc: 'เปิดการเคลื่อนที่แบบต่อเนื่องของเคอร์เซอร์ในช่องเขียนแชต',
+    rowContextMenuTitle: 'เมนูด่วนของบทสนทนา (/btw)',
+    rowContextMenuDesc: 'คลิกขวาที่ใดก็ได้ในบทสนทนาเพื่อเปิดแชตด้านข้าง /btw พร้อมแชตที่เลือก หรือเรียก /compact; กด Shift ค้างพร้อมคลิกขวาเพื่อเปิดเมนูดั้งเดิม',
+    setMotionLevelTitle: 'ระดับการเคลื่อนไหว', setMotionLevelDesc: 'ควบคุม micro-interaction แบบสปริง การแสดงแชตระหว่างสตรีม และการเปลี่ยนฉาก',
+    optMotionOff: 'ปิด', optMotionSubtle: 'น้อย', optMotionStandard: 'มาตรฐาน', optMotionUltra: 'สูงสุด',
+    setTargetFpsTitle: 'อัตราเฟรมเป้าหมาย',
+    setTargetFpsDesc: 'จำกัด FPS ขณะทำงานของขอบ Prism, คลื่นหน้าแรก, แถบคริสตัล และแอนิเมชันขวด (พักอัตโนมัติเมื่อไม่มีการใช้งาน)',
+    optFps60: '60 FPS', optFps120: '120 FPS', optFps180: '180 FPS', optFpsNative: 'สูงสุดตามจอ',
+    setMascotTitle: 'เวทีมาสคอตพิกเซล', setMascotDesc: 'แสดงมาสคอตพิกเซลแบบโต้ตอบในช่องเขียนแชต',
+    optMascotCrab: 'คู่', optMascotMinis: 'คู่ + ปูจิ๋ว', optMascotQuad: 'สี่ตัว', optMascotQuadMinis: 'สี่ตัว + ปูจิ๋ว', optMascotOff: 'ปิด',
+    mascotRosterTitle: 'รายชื่อมาสคอตที่กำหนดเอง', mascotRosterCount: 'ตัวหลัก {n}/4', mascotRosterMinis: '+ ปูจิ๋ว 3 ตัว',
+    mascotSpeciesCrab: 'ปู Claude', mascotSpeciesCat: 'แมว Gemini', mascotSpeciesDragon: 'มังกร GPT', mascotSpeciesWhale: 'วาฬ DeepSeek',
+    mascotStageOpenBtn: 'เปิดเวทีคัดเลือก', mascotStageTitle: 'เวทีคัดเลือกมาสคอต', mascotStageBackBtn: 'กลับไปยังการตั้งค่า',
+    mascotStageHint: 'คลิกมาสคอตในโรงเตี๊ยมหรือป้ายด้านล่างเพื่อเปิด/ปิดไฟส่องเวที; เลื่อนตัวชี้เพื่อดูมิติ Parallax 3D',
+    mascotStagePresetDual: 'คู่คลาสสิก', mascotStagePresetQuad: 'ครบทั้งสี่ตัว', mascotStagePresetOff: 'พักทั้งหมด', mascotStageMinisSlot: 'มุมปูจิ๋ว',
+    mascotStageActiveOn: 'อยู่บนเวที', mascotStageActiveOff: 'พักอยู่',
+    setRippleTitle: 'คลื่นเมทริกซ์หน้าแรก', setRippleDesc: 'เอฟเฟกต์คลื่นตัวอักษรแบบโต้ตอบบนหน้าแรก',
+    setConvRippleTitle: 'คลื่นเมทริกซ์ในแชต', setConvRippleDesc: 'เอฟเฟกต์คลื่นตัวอักษรบนพื้นหลังแชต ปรับความเข้มได้ (ปิดเป็นค่าเริ่มต้น; ปิดตัวเองเมื่อใช้วอลเปเปอร์กำหนดเองหรือ Split View)',
+    optConvRippleOff: 'ปิด', optConvRippleSubtle: 'น้อย', optConvRippleMedium: 'ปานกลาง', optConvRippleFull: 'เต็มรูปแบบ',
+    setThoughtModeTitle: 'โหมดแปล Thought',
+    setThoughtModeDesc: 'แปลลำดับการให้เหตุผลภาษาอังกฤษด้วย Machine Translate ที่ไม่ต้องตั้งค่า หรือปรับสำนวนด้วย AI แบบสตรีมที่รองรับ OpenAI-compatible API',
+    optThoughtOff: 'ปิด', optThoughtMachine: 'แปลด้วยเครื่อง', optThoughtAi: 'ปรับสำนวนด้วย AI',
+    setThoughtTriggerTitle: 'จังหวะเริ่มแปล',
+    setThoughtTriggerDesc: 'โหลด Thought ล่าสุดที่เสร็จแล้วไว้เบื้องหลัง หรือแปลเมื่อกดขยายเท่านั้นเพื่อประหยัดโทเคน',
+    optTriggerPreload: 'โหลดล่วงหน้า', optTriggerExpand: 'เมื่อขยาย', thoughtStyleLabel: 'รูปแบบการปรับสำนวน',
+    optStyleTech: 'ต้นฉบับเชิงเทคนิค', optStyleConcise: 'สรุปประเด็นสำคัญ', optStyleCustom: 'พรอมป์ต์กำหนดเอง',
+    thoughtCustomPromptPh: 'ป้อนพรอมป์ต์สำหรับปรับสำนวน (บันทึกไว้ในเครื่องเท่านั้น)…',
+    thoughtProfilesLabel: 'โปรไฟล์ OpenAI Endpoint', thoughtAddProfileBtn: '+ เพิ่มโปรไฟล์', thoughtDelProfileBtn: 'ลบ',
+    thoughtFieldName: 'ชื่อโปรไฟล์', thoughtFieldBaseUrl: 'Base URL', thoughtFieldApiKey: 'API Key', thoughtFieldModel: 'รหัสโมเดล',
+    thoughtFetchModelsBtn: 'ดึงรายการโมเดล', thoughtSaveBtn: 'บันทึกการตั้งค่า', thoughtTestBtn: 'ส่งแชตทดสอบ',
+    thoughtPrivacyHint: 'API keys และพรอมป์ต์ที่กำหนดเองจะจัดเก็บไว้ในเครื่องเท่านั้นและไม่ถูกอัปโหลด',
+    workspaceFilterAria: 'กรอง',
+    subTabAll: 'ทั้งหมด', subTabAppearance: 'หน้าตา', subTabInteraction: 'Workspace', subTabThought: 'Thought', subTabModules: 'โมดูล', subTabBeta: 'เบตา', subTabAbout: 'การตั้งค่าและเกี่ยวกับ',
+    setAccentToneTitle: 'โทนสีเน้น', setAccentToneDesc: 'ปรับเฉดสีเน้นสำหรับตัวควบคุมที่ทำงานอยู่ วงแหวนโฟกัส และกราฟ',
+    optToneFollow: 'ตามโมเดล', optToneCobalt: 'โคบอลต์', optToneIris: 'ไอริส', optToneAmber: 'อำพัน', optToneMono: 'ขาวดำ',
+    setCornerStyleTitle: 'รูปแบบความโค้งมุม', setCornerStyleDesc: 'ปรับความโค้งของมุมในช่องเขียนแชต การ์ด และป๊อปโอเวอร์',
+    optCornerSharp: 'เหลี่ยม', optCornerBalanced: 'สมดุล', optCornerSoft: 'มน',
+    setScrollBottomTitle: 'แอนิเมชันเลื่อนไปล่างสุด',
+    setScrollBottomDesc: 'ใช้การเลื่อนแบบเฉื่อยความเร็วสูงเมื่อคลิกเลื่อนไปล่างสุด (การหมุนล้อเมาส์จะหยุดทันที) หรือใช้การกระโดดไปตำแหน่งทันทีแบบดั้งเดิม',
+    optScrollBottomSmooth: 'เลื่อนอย่างรวดเร็ว', optScrollBottomInstant: 'ทันที',
+    inlineDiffOpenSidebar: 'เปิดแถบ', inlineDiffCollapse: 'ยุบ',
+    inlineDiffBinary: 'ไฟล์ไบนารี',
+    inlineDiffNoPreview: 'ไม่มี hunk',
+    inlineDiffSnapshotNotice: 'ไม่มี Git',
+    inlineDiffLongLinesTag: 'บรรทัดยาว', inlineDiffMenuExpand: 'ขยาย diff', inlineDiffMenuCollapse: 'ยุบ diff',
+    inlineDiffMenuCopyPath: 'คัดลอกพาธ', inlineDiffLargeExpandBtn: '⋯ ดู diff',
+    setSidebarNavFoldLabel: 'ยุบเมนูนำทางแถบด้านข้าง',
+    setSidebarNavFoldDesc: 'เมื่อปิดจะแสดงเมนูนำทางทั้ง 3 รายการ; เมื่อเปิดจะตรึง New Conversation ไว้และย้าย Automations กับ Customizations ไปไว้ในเมนูเพิ่ม',
+    optSidebarNavFoldOff: 'แสดงทั้งหมด', optSidebarNavFoldOn: 'ยุบรายการเพิ่ม',
+    setCodeFontTitle: 'ฟอนต์ Monospace สำหรับโค้ด', setCodeFontDesc: 'ตระกูลฟอนต์ Monospace ที่ต้องการใช้กับบล็อกโค้ดและโค้ดในบรรทัด',
+    optFontDefault: 'ค่าเริ่มต้น', optFontSfmono: 'SF Mono / Consolas',
+    setCodeLigaturesTitle: 'Ligatures ของฟอนต์โค้ด', setCodeLigaturesDesc: 'เปิดใช้ ligatures สำหรับการเขียนโปรแกรม (=>, !==, >=) ภายในบล็อกโค้ด',
+    setAmbientIntensityTitle: 'ความเข้มของแสงเรืองรอบข้าง', setAmbientIntensityDesc: 'ควบคุมสเกลความทึบของแสง Aurora และแสงหักเหบริเวณขอบ',
+    optAmb0: '0%', optAmb35: '35%', optAmb70: '70%', optAmb100: '100%',
+    setDarkAuraStyleLabel: 'วัสดุพื้นผิวโหมดมืด', setDarkAuraStyleDesc: 'เลือกรูปแบบสเปกตรัม Aurora ด้านล่างในโหมดแชตมืด',
+    optDarkAuraPrism: 'Polar Silk', optDarkAuraNeon: 'Abyssal Glow',
+    setDarkAuraLabel: 'ความเข้มของเส้นขอบฟ้าโหมดมืด', setDarkAuraDesc: 'ปรับความสว่างและระยะของแสง Aurora ด้านล่างในมุมมองแชตโหมดมืด',
+    darkAuraHintLight: 'ทำงานในโหมดมืด — เปลี่ยนธีม Host เป็น Dark เพื่อดูตัวอย่าง',
+    optDarkAuraSubtle: 'น้อย', optDarkAuraBalanced: 'สมดุล', optDarkAuraVivid: 'สดชัด',
+    setThoughtViewTitle: 'มุมมอง Thought ที่แปลแล้ว', setThoughtViewDesc: 'สลับระหว่างคำแปลแบบเต็มจอกับมุมมองสองภาษาที่เรียงซ้อนกัน',
+    optThoughtImmersive: 'เต็มจอ', optThoughtBilingual: 'สองภาษา',
+    cfgToolbarHint: 'ไฟล์ JSON ที่ส่งออกจะลบ API keys ทั้งหมดโดยอัตโนมัติเพื่อให้สำรองและแบ่งปันได้อย่างปลอดภัย',
+    thoughtClearCacheBtn: 'ล้างแคช', thoughtViewLabel: 'มุมมองการอ่าน',
+    omniOpenPreview: 'ดูใน Workbench', omniRevealFolder: 'โฟลเดอร์', omniInsertMention: '@Mention',
+    omniCopyAbsPath: 'คัดลอกพาธ', omniCopyRelPath: 'คัดลอกพาธ', omniZoomDiagram: 'ซูม',
+    omniViewWorkbench: 'Workbench', omniViewRaw: 'มุมมองดิบ',
+    swarmBadge: 'Swarm', cacheShort: 'แคช', optStudio: 'สตูดิโอ', optObsidian: 'Obsidian',
+    optWarm: 'อุ่น', optClaude: 'Alabaster Warm', optLightCrystal: 'คริสตัล',
+    optLightAlabaster: 'อุ่น', optPlaceholderHost: 'Host', optFps60: '60 FPS',
+    optFps120: '120 FPS', optFps180: '180 FPS', thoughtFieldBaseUrl: 'Base URL',
+    thoughtFieldApiKey: 'API Key', subTabInteraction: 'พื้นที่ทำงาน', subTabThought: 'การคิด',
+    optFontSfmono: 'SF Mono / Consolas', optAmb0: '0%', optAmb35: '35%', optAmb70: '70%',
+    optAmb100: '100%', optDarkAuraPrism: 'Polar Silk', optDarkAuraNeon: 'Abyssal Glow',
+  });
+  for (const [key, row] of Object.entries(UI_TABLE)) {
+    if (Array.isArray(row) && row.length === 8) row.push(THAI_UI[key] || row[2]);
+  }
+
   // Static UI keys required by non-settings runtime modules (Channel 1 slim slice)
   const RUNTIME_UI_KEYS = Object.freeze([
     'studioPlaceholder',
@@ -1805,6 +2066,7 @@
   ]);
 
   function getUiStrings(lang) {
+    lang = resolveLangId(lang);
     const out = {};
     for (const key in UI_TABLE) {
       out[key] = pick(lang, UI_TABLE[key]);
@@ -1812,7 +2074,9 @@
     out.optViewImmersive = out.optThoughtImmersive;
     out.optViewBilingual = out.optThoughtBilingual;
     out.swarmSplitSub = (mainPct, subPct) =>
-      lang === 'zh-CN'
+      lang === 'th-TH'
+        ? `แชตหลัก ${mainPct}% · เอเจนต์ ${subPct}%`
+        : lang === 'zh-CN'
         ? `主会话 ${mainPct}% · 子代理 ${subPct}%`
         : lang === 'zh-TW'
         ? `主工作階段 ${mainPct}% · 子代理 ${subPct}%`
@@ -1828,7 +2092,9 @@
         ? `Haupt ${mainPct} % · Sub ${subPct} %`
         : `Main ${mainPct}% · Swarm ${subPct}%`;
     out.showMoreN = (n) =>
-      lang === 'zh-CN'
+      lang === 'th-TH'
+        ? `แสดงเพิ่มอีก ${n} รายการ`
+        : lang === 'zh-CN'
         ? `再显示 ${n} 个`
         : lang === 'zh-TW'
         ? `再顯示 ${n} 個`

@@ -30,7 +30,7 @@ const VIEWER_CSP = [
 ].join('; ');
 
 export const SANDBOX_HTML_CSP = "sandbox allow-scripts; connect-src 'none'; form-action 'none'; navigate-to 'none'";
-const SUPPORTED_VIEWER_LANGS = Object.freeze(['zh-CN', 'zh-TW', 'yue', 'en', 'ja', 'ko', 'es', 'fr', 'de']);
+const SUPPORTED_VIEWER_LANGS = Object.freeze(['zh-CN', 'zh-TW', 'yue', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']);
 
 const MIME_BY_EXT = Object.freeze({
   '.mp4': 'video/mp4',

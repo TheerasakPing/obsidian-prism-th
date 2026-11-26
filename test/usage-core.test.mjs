@@ -15,12 +15,17 @@ test('formatCompactTokens matches expected units and rounding', () => {
   assert.equal(usageCore.formatCompactTokens(2500000000), '2.5B');
 });
 
-test('formatHomeHour formats AM/PM in zh and en', () => {
+test('formatHomeHour formats zh/en and Thai 12-hour labels', () => {
   assert.equal(usageCore.formatHomeHour(0, true), '上午 12 点');
   assert.equal(usageCore.formatHomeHour(12, true), '下午 12 点');
   assert.equal(usageCore.formatHomeHour(15, true), '下午 3 点');
   assert.equal(usageCore.formatHomeHour(0, false), '12 AM');
   assert.equal(usageCore.formatHomeHour(14, false), '2 PM');
+  assert.equal(usageCore.formatHomeHour(0, 'th-TH'), 'ก่อนเที่ยง 12 น.');
+  assert.equal(usageCore.formatHomeHour(15, 'th-TH'), 'หลังเที่ยง 3 น.');
+  assert.equal(usageCore.resolveLang('th_TH'), 'th-TH');
+  assert.equal(usageCore.homeRangeLabel('30d', 'th-TH'), '30 วัน');
+  assert.equal(usageCore.homeShortDateFormat('th-TH').resolvedOptions().locale, 'th-TH');
 });
 
 test('analyzeTrajectoryForUsage extracts calls, days, hours, models, and retryInfos fallback', () => {
@@ -4214,7 +4219,7 @@ test('Smoked Obsidian Wave 1: home-studio-panel renders pure createElementNS SVG
   }
 });
 
-test('PR #41: Home Studio distinguishes cumulative vs active-only sessions with 8-language toolbar toggle, SVG icon, focus preservation, and localStorage persistence', async () => {
+test('PR #41: Home Studio distinguishes cumulative vs active-only sessions with 9-locale toolbar toggle, SVG icon, focus preservation, and localStorage persistence', async () => {
   const fs = require('node:fs');
   const homeStudioPanel = require('../home-studio-panel.js');
   const i18nLocales = require('../i18n-locales.js');
@@ -4397,7 +4402,7 @@ test('PR #41: Home Studio distinguishes cumulative vs active-only sessions with 
   }
 });
 
-test('PR #49: Home Studio clarifies local-sessions-only scope across all 8 languages without crowding Sessions/Tokens subtitles', async () => {
+test('PR #49: Home Studio clarifies local-sessions-only scope across all 9 locales without crowding Sessions/Tokens subtitles', async () => {
   const i18nLocales = require('../i18n-locales.js');
   const homeStudioPanel = require('../home-studio-panel.js');
   const prevWin = globalThis.window;

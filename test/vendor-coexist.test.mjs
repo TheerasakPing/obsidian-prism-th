@@ -351,8 +351,8 @@ test('Obsidian Prism brand compliance, GPL-3.0 LICENSE, NOTICE, CITATION.cff, TH
   }
 });
 
-test('i18n-locales.js covers all 8 languages (zh-CN, zh-TW, en, ja, ko, es, fr, de) + legacy yue fallback with Obsidian Prism brand, fold hints, coexistence & About keys', () => {
-  const langs = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'];
+test('i18n-locales.js covers all 9 locales (zh-CN, zh-TW, en, ja, ko, es, fr, de, th-TH) + legacy yue fallback with Obsidian Prism brand, fold hints, coexistence & About keys', () => {
+  const langs = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'];
   const requiredKeys = [
     'sectionTitle',
     'sectionSubtitle',
@@ -391,7 +391,7 @@ test('i18n-locales.js covers all 8 languages (zh-CN, zh-TW, en, ja, ko, es, fr, 
     for (const k of requiredKeys) {
       assert.ok(typeof ui[k] === 'string' && ui[k].length > 0, `Missing ${k} for ${lang}`);
     }
-    assert.ok(/B[eê]ta/i.test(ui.setSidebarStudioTitle), `Chat module title must mark Beta for ${lang}`);
+    assert.ok(/B[eê]ta|เบตา/i.test(ui.setSidebarStudioTitle), `Chat module title must mark Beta for ${lang}`);
   }
   const zh = locales.getUiStrings('zh-CN');
   assert.equal(zh.sectionTitle, 'Obsidian Prism · 黑曜棱镜');
@@ -2770,7 +2770,7 @@ test('Smoked Obsidian Wave 1: style.css hygiene (0 :has, ASCII, LF, no BOM, home
   assert.ok(css.includes('.ag-cs-home-chart-svg{') && css.includes('.ag-cs-home-chart-peak{'));
   assert.ok(css.includes('--ag-cs-menu-bg:rgba(13,14,18,.94);') && css.includes('--ag-cs-menu-bg-l:rgba(252,253,254,.96);'));
 
-  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const expr = cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, language: lang }, { bundleCachePath: '' });
     const bytes = Buffer.byteLength(expr, 'utf8');
     assert.ok(bytes < 549500, `Channel 1 (${lang}) must be strictly < 549,500 B, got ${bytes}`);

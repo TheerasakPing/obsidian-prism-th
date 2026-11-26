@@ -18,7 +18,7 @@
     return Number.isFinite(n) ? n : 0;
   }
 
-  const L8 = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'];
+  const L9 = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'];
   function resolveLang(langOrZh) {
     if (langOrZh === true) return 'zh-CN';
     if (!langOrZh) return 'en';
@@ -26,20 +26,21 @@
     if (!lo) return 'en';
     if (/^yue(?:$|[-_])/.test(lo)) return 'zh-CN';
     if (/^zh(?:$|[-_])/.test(lo)) return /tw|hk|mo|hant/.test(lo) ? 'zh-TW' : 'zh-CN';
+    if (/^th(?:$|[-_])/.test(lo) || lo === 'thai') return 'th-TH';
     const m = lo.match(/^(en|ja|ko|es|fr|de)(?:$|[-_])/);
     return m ? m[1] : 'en';
   }
 
-  function pick8(arr, langOrZh) {
-    const i = L8.indexOf(resolveLang(langOrZh));
+  function pickLocale(arr, langOrZh) {
+    const i = L9.indexOf(resolveLang(langOrZh));
     return arr[i >= 0 ? i : 2] ?? arr[2];
   }
 
-  const mkLbls = (a) => Object.fromEntries(L8.map((k, i) => [k, a[i]]));
+  const mkLbls = (a) => Object.fromEntries(L9.map((k, i) => [k, a[i]]));
   const HOME_RANGES = [
-    ['all', 0, ['全部', '全部', 'All', '全期間', '전체', 'Todo', 'Tout', 'Alle']],
-    ['30d', 30, ['30 天', '30 天', '30d', '30日間', '30일', '30d', '30j', '30T']],
-    ['7d', 7, ['7 天', '7 天', '7d', '7日間', '7일', '7d', '7j', '7T']],
+    ['all', 0, ['全部', '全部', 'All', '全期間', '전체', 'Todo', 'Tout', 'Alle', 'ทั้งหมด']],
+    ['30d', 30, ['30 天', '30 天', '30d', '30日間', '30일', '30d', '30j', '30T', '30 วัน']],
+    ['7d', 7, ['7 天', '7 天', '7d', '7日間', '7일', '7d', '7j', '7T', '7 วัน']],
   ].map(([id, days, a]) => ({ id, days, labelZh: a[0], labelEn: a[2], labels: mkLbls(a) }));
 
   const wrapTitle = (s, l, r) => (s[0] === l ? s : l + s + r);
@@ -166,16 +167,17 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
     const h12 = h % 12 || 12;
     const pm = h >= 12 ? 1 : 0;
     const l = resolveLang(langOrZh);
+    if (l === 'th-TH') return (pm ? 'หลังเที่ยง ' : 'ก่อนเที่ยง ') + h12 + ' น.';
     if (l === 'fr') return h + 'h';
     if (l === 'de') return h + ' Uhr';
     if (l === 'es') return h + ':00';
     if (l === 'en') return h12 + (pm ? ' PM' : ' AM');
-    const [a, b, s] = pick8(['上午 |下午 | 点', '上午 |下午 | 點', '', '午前 |午後 | 時', '오전 |오후 |시'], l).split('|');
+    const [a, b, s] = pickLocale(['上午 |下午 | 点', '上午 |下午 | 點', '', '午前 |午後 | 時', '오전 |오후 |시'], l).split('|');
     return (pm ? b : a) + h12 + s;
   }
 
   function homeShortDateFormat(langOrZh) {
-    return new Intl.DateTimeFormat(pick8('zh-CN,zh-TW,en-US,ja-JP,ko-KR,es-ES,fr-FR,de-DE'.split(','), langOrZh), { month: 'short', day: 'numeric' });
+    return new Intl.DateTimeFormat(pickLocale('zh-CN,zh-TW,en-US,ja-JP,ko-KR,es-ES,fr-FR,de-DE,th-TH'.split(','), langOrZh), { month: 'short', day: 'numeric' });
   }
 
   function homeShortDate(format, day) {
@@ -509,7 +511,7 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
         const l = resolveLang(zh);
         const title = homeBookTitle(book, l);
         const cntStr = formatHomeCount(count);
-        funBook = pick8([
+        funBook = pickLocale([
           `你的 Token 用量相当于 ${cntStr} 本${title}。`,
           `您的 Token 用量相當於 ${cntStr} 本${title}。`,
           `You've used ~${cntStr}× the tokens in ${title}.`,
@@ -518,6 +520,7 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
           `Has usado ~${cntStr}× los tokens de ${title}.`,
           `Vous avez utilisé ~${cntStr}× les tokens de ${title}.`,
           `Verbraucht: ~${cntStr}× die Token von ${title}.`,
+          `ปริมาณโทเคนที่ใช้เทียบเท่ากับหนังสือ ${title} ประมาณ ${cntStr} เล่ม`,
         ], l);
       }
     }
@@ -567,9 +570,9 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
   }
 
   const Q_KIND_LBL = { 'gemini-argon': 'Gemini (Argon)', claude: 'Claude / GPT', gemini: 'Gemini' };
-  const Q_POOL_FB = '模型配额|模型配額|Quota Pool|クォータ|할당량 풀|Cuota|Quota|Kontingent'.split('|');
+  const Q_POOL_FB = '模型配额|模型配額|Quota Pool|クォータ|할당량 풀|Cuota|Quota|Kontingent|กลุ่มโควตา'.split('|');
   function quotaGroupLabel(group, langOrZh) {
-    return Q_KIND_LBL[quotaGroupKind(group)] || String(group?.name || group?.id || '').trim() || pick8(Q_POOL_FB, langOrZh);
+    return Q_KIND_LBL[quotaGroupKind(group)] || String(group?.name || group?.id || '').trim() || pickLocale(Q_POOL_FB, langOrZh);
   }
 
   function quotaRemaining(bucket) {
@@ -604,21 +607,21 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
     return pick || list.find((g) => quotaWindows(g).length > 0) || list[0];
   }
 
-  const REFRESHING_L = '即将刷新|即將重設|Refreshing|間もなく更新|곧 초기화|Actualizando|Actualisation|Aktualisiert'.split('|');
+  const REFRESHING_L = '即将刷新|即將重設|Refreshing|間もなく更新|곧 초기화|Actualizando|Actualisation|Aktualisiert|กำลังรีเฟรช'.split('|');
 
-  const ETA_U = ['天|小时|分|分钟|', '天|小時|分|分鐘|', 'd|h|m|m| ', '日|時間|分|分|', '일|시간|분|분| ', 'd|h|m|m| ', 'j|h|m|m| ', 'T|Std|m|m| '];
+  const ETA_U = ['天|小时|分|分钟|', '天|小時|分|分鐘|', 'd|h|m|m| ', '日|時間|分|分|', '일|시간|분|분| ', 'd|h|m|m| ', 'j|h|m|m| ', 'T|Std|m|m| ', 'วัน|ชม.|นาที|นาที| '];
   function fmtEtaSec(totalSec, l) {
     const d = Math.floor(totalSec / 86400);
     const h = Math.floor((totalSec % 86400) / 3600);
     const m = Math.floor((totalSec % 3600) / 60);
-    const u = pick8(ETA_U, l).split('|');
+    const u = pickLocale(ETA_U, l).split('|');
     return d > 0 ? `${d}${u[0]}${u[4]}${h}${u[1]}` : h > 0 ? `${h}${u[1]}${u[4]}${m}${u[2]}` : `${Math.max(1, m)}${u[3]}`;
   }
 
   function shortEta(ms, langOrZh) {
     const l = resolveLang(langOrZh);
     const v = numOr(ms);
-    if (!(v > 0) || !Number.isFinite(v)) return pick8(REFRESHING_L, l);
+    if (!(v > 0) || !Number.isFinite(v)) return pickLocale(REFRESHING_L, l);
     return fmtEtaSec(Math.max(1, Math.round(v / 1000)), l);
   }
 
@@ -667,10 +670,10 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
   }
 
   const Q_LBL = {
-    exhaust: '提前耗尽|提前耗盡|Depleting early|早期枯渇予測|조기 소진 예상|Se agota pronto|Épuisement rapide|Bald erschöpft'.split('|'),
-    tight: '配速偏紧|配速偏緊|Burning fast|消費やや速め|소모 빠름|Consumo rápido|Conso rapide|Hoher Verbrauch'.split('|'),
-    ok: '配额充裕|配額充裕|On track|ペース良好|정상 페이스|En rango|Dans les temps|Im Plan'.split('|'),
-    idle: '待命充裕|待命充裕|Standby|待機中|대기 중|En espera|En veille|Bereit'.split('|'),
+    exhaust: '提前耗尽|提前耗盡|Depleting early|早期枯渇予測|조기 소진 예상|Se agota pronto|Épuisement rapide|Bald erschöpft|โควตาอาจหมดก่อนเวลา'.split('|'),
+    tight: '配速偏紧|配速偏緊|Burning fast|消費やや速め|소모 빠름|Consumo rápido|Conso rapide|Hoher Verbrauch|ใช้งานเร็ว'.split('|'),
+    ok: '配额充裕|配額充裕|On track|ペース良好|정상 페이스|En rango|Dans les temps|Im Plan|อยู่ในเกณฑ์'.split('|'),
+    idle: '待命充裕|待命充裕|Standby|待機中|대기 중|En espera|En veille|Bereit|พร้อมใช้งาน'.split('|'),
   };
   function groupQuotaPace(group, langOrZh, nowMs = Date.now()) {
     const l = resolveLang(langOrZh);
@@ -681,16 +684,16 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
       if (!primary || (rank[f.status] ?? 0) > (rank[primary.status] ?? 0)) primary = f;
     }
     const status = primary ? primary.status : 'idle';
-    const label = pick8(Q_LBL[status] || Q_LBL.idle, l);
+    const label = pickLocale(Q_LBL[status] || Q_LBL.idle, l);
     let detail = '';
     if (primary) {
       if (primary.willExhaust && primary.exhaustInMs !== null) {
         const eta = shortEta(primary.exhaustInMs, l);
-        detail = pick8([`预计 ${eta}后耗尽`, `預計 ${eta}後耗盡`, `Est. empty in ${eta}`, `約${eta}で枯渇予測`, `약 ${eta} 후 소진`, `Se agota en ~${eta}`, `Vide dans ~${eta}`, `Leer in ~${eta}`], l);
+        detail = pickLocale([`预计 ${eta}后耗尽`, `預計 ${eta}後耗盡`, `Est. empty in ${eta}`, `約${eta}で枯渇予測`, `약 ${eta} 후 소진`, `Se agota en ~${eta}`, `Vide dans ~${eta}`, `Leer in ~${eta}`, `คาดว่าโควตาจะหมดในอีก ${eta}`], l);
       } else if (primary.resetInMs > 0) {
         const eta = shortEta(primary.resetInMs, l);
         const endPct = Math.round(primary.endRemaining * 100);
-        detail = pick8([`${eta}后重置 · 预计结余 ${endPct}%`, `${eta}後重設 · 預計結餘 ${endPct}%`, `Resets in ${eta} · Est. ${endPct}% left`, `${eta}後に更新 · 予測残 ${endPct}%`, `${eta} 후 초기화 · 예상 잔여 ${endPct}%`, `Reinicio en ${eta} · Est. ${endPct}%`, `Reset dans ${eta} · Est. ${endPct}%`, `Reset in ${eta} · Ca. ${endPct}%`], l);
+        detail = pickLocale([`${eta}后重置 · 预计结余 ${endPct}%`, `${eta}後重設 · 預計結餘 ${endPct}%`, `Resets in ${eta} · Est. ${endPct}% left`, `${eta}後に更新 · 予測残 ${endPct}%`, `${eta} 후 초기화 · 예상 잔여 ${endPct}%`, `Reinicio en ${eta} · Est. ${endPct}%`, `Reset dans ${eta} · Est. ${endPct}%`, `Reset in ${eta} · Ca. ${endPct}%`], l);
       }
     }
     return { status, label, detail, primary, forecasts };
@@ -782,7 +785,7 @@ losttime|1647000|追忆似水年华|追憶似水年華|失われた時を求め�
     const now = typeof n0 === 'number' ? n0 : Date.now() / 1000;
     const sec = (tsSeconds && typeof tsSeconds === 'object' ? tsSec(tsSeconds) : toNum(tsSeconds)) - now;
     const l = resolveLang(langOrZh);
-    return sec <= 0 ? pick8(REFRESHING_L, l) : fmtEtaSec(sec, l);
+    return sec <= 0 ? pickLocale(REFRESHING_L, l) : fmtEtaSec(sec, l);
   }
 
   return {

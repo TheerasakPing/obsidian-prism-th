@@ -1,3 +1,11 @@
+## Unreleased — Obsidian Prism Thai Edition
+
+- Add `th-TH` as the ninth locale and make it the default for the Thai Edition.
+- Translate 329 of 345 main UI dictionary keys (95.4%); retain canonical brand and technical identifiers.
+- Extend Thai localization to Home Studio, usage analytics, Storage Archive Workbench, Pulse fallback, Omni Viewer, Prompt Suggester, Effort Slider and Host Workbench controls.
+- Add Thai locale regression tests and preserve the upstream Channel 1 payload budget.
+- Full macOS universal build remains blocked by the local Command Line Tools Swift SDK lacking x86_64 compatibility libraries.
+
 # Changelog / 更新日志
 
 All notable changes to **Obsidian Prism** are documented in this file.

@@ -621,7 +621,7 @@ test('OmniServer /sandbox/ enforces strict opaque-origin CSP on .html/.htm and /
   }
 
   // /viewer accepts all 8 locales + yue compatibility and falls back invalid locales to zh-CN
-  for (const lang of ['zh-CN', 'zh-TW', 'yue', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['zh-CN', 'zh-TW', 'yue', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const res = await httpGetRaw(`${info.baseUrl}/viewer?token=${info.token}&kind=mermaid&lang=${encodeURIComponent(lang)}`);
     assert.equal(res.statusCode, 200);
     assert.ok(res.text.includes(`<html lang="${lang}"`), `/viewer must preserve lang="${lang}"`);

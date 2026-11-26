@@ -2343,7 +2343,7 @@ test('Octopath HD-2D 16:9 Mascot Casting Stage sub-panel: Ch9 fallback when masc
   assert.equal(Object.keys(sp.PRISM_SETTINGS_SCHEMA).length, 39, 'PRISM_SETTINGS_SCHEMA must remain strictly 39 keys');
   assert.deepEqual([...sp.PRISM_SETTINGS_SCHEMA.mascot.allowed], ['crab', 'quad', 'quad-minis', 'off']);
 
-  // 2. 8-language coverage (including all stage keys), /4 cap copy, zero CJK in en/es/fr/de, and 0 new keys leaked into RUNTIME_UI_KEYS
+  // 2. 9-locale coverage (including all stage keys), /4 cap copy, zero CJK in en/es/fr/de, and 0 new keys leaked into RUNTIME_UI_KEYS
   const newKeys = [
     'optMascotCrab', 'optMascotMinis', 'optMascotQuad', 'optMascotQuadMinis', 'optMascotOff',
     'mascotRosterTitle', 'mascotRosterCount', 'mascotRosterMinis',
@@ -2357,7 +2357,7 @@ test('Octopath HD-2D 16:9 Mascot Casting Stage sub-panel: Ch9 fallback when masc
     assert.equal(runtimeKeySet.has(k), false, `New mascot settings key '${k}' must NOT be in RUNTIME_UI_KEYS`);
   }
   const CJK_RE = /[\u3000-\u30ff\u3400-\u9fff\uac00-\ud7af\uff00-\uffef]/;
-  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const ui = i18nLocales.getUiStrings(lang);
     assert.ok(ui.mascotRosterCount.includes('/4'), `mascotRosterCount for ${lang} must reflect /4 cap`);
     for (const k of newKeys) {

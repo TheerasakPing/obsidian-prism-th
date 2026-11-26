@@ -846,7 +846,7 @@ test('#6 updateChannel sends { version, channel } immediately without 40ms race 
   }
 });
 
-test('CSS hygiene, dual-split :not([data-split-overlaid]), dead brand SVG CSS removal, 8-locale setTargetFpsDesc & Channel 1 < 550,000 B', () => {
+test('CSS hygiene, dual-split :not([data-split-overlaid]), dead brand SVG CSS removal, 9-locale setTargetFpsDesc & Channel 1 < 550,000 B', () => {
   const css = fs.readFileSync(path.join(ROOT, 'style.css'), 'utf8');
   assert.equal(/:has\(/.test(css), false, 'style.css must have 0 :has() selectors');
   assert.equal(/[^\x00-\x7F]/.test(css), false, 'style.css must have 0 non-ASCII characters');
@@ -864,10 +864,10 @@ test('CSS hygiene, dual-split :not([data-split-overlaid]), dead brand SVG CSS re
     'accentTone=mono must apply grayscale(1) to settings brand SVG'
   );
 
-  // 2-1A i18n-locales.js 8-locale setTargetFpsDesc check + yue->zh-CN migration
+  // 2-1A i18n-locales.js 9-locale setTargetFpsDesc check + yue->zh-CN migration
   const i18nCore = require(path.join(ROOT, 'i18n-core.js'));
   const locales = require(path.join(ROOT, 'i18n-locales.js'));
-  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const desc = locales.getUiStrings(lang).setTargetFpsDesc;
     assert.ok(typeof desc === 'string' && desc.length >= 20, `${lang} setTargetFpsDesc must be non-empty`);
   }

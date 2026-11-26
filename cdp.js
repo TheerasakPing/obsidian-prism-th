@@ -31,8 +31,8 @@ const PID_FILE = path.join(__dirname, '.watch.pid');
 const CONFIG_FILE = path.join(__dirname, 'config.json');
 
 const DEFAULT_CONFIG = {
-  language: 'auto',
-  lang: 'auto',
+  language: 'th-TH',
+  lang: 'th-TH',
   palette: 'obsidian',
   lightPreset: 'crystal',
   darkAuraStyle: 'prism',
@@ -80,8 +80,8 @@ const DEFAULT_CONFIG = {
 };
 
 const VALIDATORS = {
-  language: ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'],
-  lang: ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'],
+  language: ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'],
+  lang: ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'],
   palette: ['host', 'obsidian', 'warm', 'claude'],
   lightPreset: ['crystal', 'alabaster'],
   darkAuraStyle: ['prism', 'neon'],
@@ -8022,6 +8022,7 @@ function normalizeLangIdNode(rawLang, fallback = 'en') {
   if (raw === 'es' || raw.startsWith('es-') || raw === 'spanish') return 'es';
   if (raw === 'fr' || raw.startsWith('fr-') || raw === 'french') return 'fr';
   if (raw === 'de' || raw.startsWith('de-') || raw === 'german') return 'de';
+  if (raw === 'th' || raw.startsWith('th-') || raw === 'thai') return 'th-TH';
   if (raw === 'yue' || raw.startsWith('yue-') || raw === 'zh-yue' || raw.includes('cantonese')) return 'zh-CN';
   if (raw === 'zh-tw' || raw === 'zh-hk' || raw.startsWith('zh-hk-') || raw === 'zh-mo' || raw === 'zh-hant' || raw.startsWith('zh-hant-') || raw === 'tw' || raw === 'hant') return 'zh-TW';
   if (raw === 'zh' || raw === 'zh-cn' || raw === 'zh-hans' || raw.startsWith('zh-')) return 'zh-CN';

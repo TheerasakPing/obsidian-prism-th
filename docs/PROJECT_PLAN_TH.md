@@ -112,3 +112,14 @@
 - การอัปเดต upstream อาจชนกับ patch ภาษาไทย
 
 ลดความเสี่ยงด้วย baseline tests, minimal patches, locale isolation, attribution inventory และการบันทึก upstream SHA ทุกครั้ง
+
+
+## Progress update — Thai locale runtime (2026-11-27)
+
+- [x] เพิ่ม locale `th-TH` เป็นภาษาที่ 9 และตั้งค่าเริ่มต้น Thai Edition
+- [x] แปล UI dictionary 329/345 keys (95.4%); 16 brand/technical labels คงคำต้นฉบับ
+- [x] เพิ่ม Thai ใน Home Studio, Usage Analytics, Storage Archive Workbench, Pulse fallback, Omni Viewer, Prompt Suggester, Effort Slider และ Host Workbench
+- [x] เพิ่ม regression tests; vendor/i18n targeted suite ผ่าน 124 tests (0 failures)
+- [x] Locale validation และ `git diff --check` ผ่าน
+- [ ] Full suite ล่าสุด 812 tests: 794 passed, 1 failed, 17 skipped; รายการที่ fail คือ macOS universal Swift build testที่ติดข้อจำกัด Command Line Tools SDK (x86_64 Swift compatibility libraries)
+- [ ] ทดสอบ UI บน Antigravity จริงและทำ build/install smoke test เมื่อมี Xcode เต็มชุด

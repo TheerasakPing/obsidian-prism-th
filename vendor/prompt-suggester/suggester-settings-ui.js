@@ -1,4 +1,4 @@
-// Obsidian Prism — Channel 11 Context-Aware Next-Prompt Suggester Settings Card UI (v1.0.8 · Beta, 8-Locale, 0 innerHTML)
+// Obsidian Prism — Channel 11 Context-Aware Next-Prompt Suggester Settings Card UI (v1.0.8 · Beta, 9-Locale, 0 innerHTML)
 // 复用与思考转译一致的 OpenAI 兼容渠道工作台（.ag-cs-thought-cfg-box）：
 // - 与思考转译双向共享渠道凭据池，通过 reloadProfiles()/syncFromPeer() 防止跨卡片陈旧凭据覆写
 // - 独立保存提示词建议选中的渠道与各渠道模型 ID
@@ -58,7 +58,7 @@
     'ttlFmt',
   ];
 
-  // 8 语词典（zh-CN / zh-TW / en / ja / ko / es / fr / de，移除 yue，en/es/fr/de 严格 0 CJK）
+  // 9 语词典（zh-CN / zh-TW / en / ja / ko / es / fr / de / th-TH；移除 yue）
   const I18N_ROWS = {
     'zh-CN':
       '建议下一条提示词 (Beta)|实验性功能，默认关闭。开启后每轮回复完成时（含后台完成的会话），结合上下文在空输入框中预测下一条消息，按 Tab 使用它。|开启|关闭|OpenAI 兼容渠道预设|OpenAI 兼容主力渠道|自定义渠道|+ 新增渠道|删除当前|渠道名称|例如：Gemini AI Studio / 主力网关|接口地址 (Base URL)|接口密钥 (API Key)|模型 ID (Model)|拉取模型列表|保存渠道配置|发送测试消息|清空缓存|清除密钥|待保存清除|本地渠道可留空免密|本地免密|已保存 {0}（留空保持不变）|▾ 从已拉取的 {0} 个上游模型中快速选择…|缓存 {0} 条|正在拉取上游模型列表…|✓ 成功拉取 {0} 个模型 · {1}ms|拉取模型失败|正在保存配置…|✓ 已保存（{0} · {1}）|保存失败|正在保存并发送测试消息…|✓ 连通正常 · {0}ms · {1} 回复: 「{2}」|测试连接失败|✓ 已清空提示词建议缓存|仅同步渠道提供商（名称、地址、API 密钥）；同一渠道下选择的「模型 ID」与「思考转译」完全独立保存，互不覆盖。|有效时长限制|{0} 分钟',
@@ -76,6 +76,20 @@
       'Suggérer le prompt suivant (Beta)|Fonction expérimentale, désactivée par défaut. Prédit votre prochain message dans la zone de saisie vide après chaque réponse (tâches en arrière-plan incluses). Appuyez sur Tab pour l’utiliser.|Activé|Désactivé|Profils OpenAI compatibles|Profil OpenAI principal|Profil personnalisé|+ Nouveau|Supprimer|Nom du profil|ex. Gemini AI Studio / Passerelle principale|Base URL|API Key|Model ID|Charger les modèles|Enregistrer|Tester l’envoi|Vider le cache|Effacer clé|Suppression en attente|Facultatif en local|Sans clé|Enregistré {0} (laisser vide pour garder)|▾ Choisir parmi {0} modèles…|Cache : {0}|Récupération de /models…|✓ {0} modèles chargés · {1}ms|Échec de récupération des modèles|Enregistrement…|✓ Enregistré ({0} · {1})|Échec d’enregistrement|Test de connexion en cours…|✓ Connecté · {0}ms · {1} Réponse : « {2} »|Échec du test de connexion|✓ Cache de suggestions vidé|Synchronise uniquement les identifiants du fournisseur (Nom, Base URL, API Key) ; le Model ID par profil reste indépendant du Traducteur de réflexion.|Durée de validité|{0} min',
     de:
       'Nächsten Prompt vorschlagen (Beta)|Experimentell, standardmäßig aus. Sagt nach jeder abgeschlossenen Antwort (auch bei Hintergrundaufgaben) deine nächste Nachricht im leeren Eingabefeld voraus. Mit Tab übernehmen.|Ein|Aus|OpenAI-kompatible Profile|Primäres OpenAI-Profil|Benutzerdefiniertes Profil|+ Neu|Löschen|Profilname|z. B. Gemini AI Studio / Haupt-Gateway|Base URL|API Key|Model ID|Modelle abrufen|Speichern|Test senden|Cache leeren|Löschen|Löschen vorgemerkt|Für lokal optional|Ohne Schlüssel|{0} gespeichert (leer lassen zum Behalten)|▾ Schnellauswahl aus {0} Modellen…|Cache: {0}|Rufe /models ab…|✓ {0} Modelle geladen · {1}ms|Modellabruf fehlgeschlagen|Speichere Konfiguration…|✓ Gespeichert ({0} · {1})|Speichern fehlgeschlagen|Teste Endpunktlatenz…|✓ Verbunden · {0}ms · {1} Antwort: „{2}“|Verbindungstest fehlgeschlagen|✓ Prompt-Vorschlagscache geleert|Synchronisiert nur Anbieterdaten (Name, Base URL, API-Schlüssel); die gewählte Modell-ID pro Profil wird unabhängig vom Denk-Übersetzer gespeichert.|Gültigkeitsdauer|{0} Min.',
+    'th-TH': [
+      'แนะนำพรอมป์ต์ถัดไป (เบตา)',
+      'ฟีเจอร์ทดลอง ปิดไว้เป็นค่าเริ่มต้น เมื่อเปิดใช้งาน ระบบจะคาดเดาข้อความถัดไปในช่องพิมพ์ที่ว่างหลังตอบเสร็จ (รวมงานเบื้องหลัง) กด Tab เพื่อใช้ข้อความแนะนำ',
+      'เปิด', 'ปิด', 'โปรไฟล์ OpenAI ที่รองรับ', 'โปรไฟล์หลัก', 'โปรไฟล์กำหนดเอง', '+ เพิ่มโปรไฟล์', 'ลบโปรไฟล์',
+      'ชื่อโปรไฟล์', 'เช่น Gemini AI Studio / เกตเวย์หลัก', 'Base URL', 'API Key', 'รหัสโมเดล', 'ดึงรายการโมเดล',
+      'บันทึกการตั้งค่า', 'ส่งข้อความทดสอบ', 'ล้างแคช', 'ล้างคีย์', 'รอล้างคีย์', 'เว้นว่างได้สำหรับเซิร์ฟเวอร์ในเครื่อง',
+      'ไม่ต้องใช้คีย์', 'บันทึกแล้ว {0} (เว้นว่างเพื่อคงค่าเดิม)', '▾ เลือกจากโมเดลต้นทาง {0} รายการ…', 'แคช {0} รายการ',
+      'กำลังดึงรายการ /models…', '✓ โหลดโมเดล {0} รายการ · {1}ms', 'ดึงรายการโมเดลไม่สำเร็จ', 'กำลังบันทึกการตั้งค่า…',
+      '✓ บันทึกแล้ว ({0} · {1})', 'บันทึกไม่สำเร็จ', 'กำลังทดสอบการเชื่อมต่อ…', '✓ เชื่อมต่อสำเร็จ · {0}ms · {1} ตอบกลับ: "{2}"',
+      'ทดสอบการเชื่อมต่อล้มเหลว', '✓ ล้างแคชคำแนะนำพรอมป์ต์แล้ว',
+      'ซิงก์เฉพาะข้อมูลผู้ให้บริการ (ชื่อ, Base URL, API Key); รหัสโมเดลที่เลือกในแต่ละโปรไฟล์จัดเก็บแยกจาก Thought Translator',
+      'อายุคำแนะนำ', '{0} นาที'
+    ].join('|')
+
   };
 
   const fmt = (tpl, args) => String(tpl || '').replace(/\{(\d)\}/g, (_, i) => String(args[i] ?? ''));
@@ -101,6 +115,7 @@
     if (/^es(?:\b|-)/.test(s) || s === 'spanish') return 'es';
     if (/^fr(?:\b|-)/.test(s) || s === 'french') return 'fr';
     if (/^de(?:\b|-)/.test(s) || s === 'german') return 'de';
+    if (/^th(?:\b|-)/.test(s) || s === 'thai') return 'th-TH';
     if (/^en(?:\b|-)/.test(s) || s === 'english') return 'en';
     return '';
   }

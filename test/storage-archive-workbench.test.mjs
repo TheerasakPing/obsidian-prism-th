@@ -17,7 +17,7 @@ const settingsPanel = require(path.join(ROOT, 'settings-panel.js'));
 const i18nLocales = require(path.join(ROOT, 'i18n-locales.js'));
 const i18nCore = require(path.join(ROOT, 'i18n-core.js'));
 
-const SUPPORTED_8 = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'];
+const SUPPORTED_9 = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'];
 const NON_CJK_4 = ['en', 'es', 'fr', 'de'];
 const CJK_RE = /[\u4e00-\u9fff\u3400-\u4dbf]/;
 
@@ -221,7 +221,7 @@ function createMiniDom() {
   return { doc, makeEl };
 }
 
-test('conversation-archive: topConsumers Top-5 sort, strong secret redaction (ghp_/?token=/user:pass@/xai-/AIza/Bearer), and 8-locale report with 0 CJK leak', () => {
+test('conversation-archive: topConsumers Top-5 sort, strong secret redaction (ghp_/?token=/user:pass@/xai-/AIza/Bearer), and 9-locale report with 0 CJK leak', () => {
   // 1) Direct sanitizeTitleForReport redaction matrix
   const samples = [
     ['OpenAI sk-secret1234567890abcd done', 'sk-secret'],
@@ -309,14 +309,15 @@ test('conversation-archive: topConsumers Top-5 sort, strong secret redaction (gh
     assert.equal(scan.archivableOldMainCount, 1);
     assert.equal(scan.archivableOldMainMb, 5.5);
 
-    // 3) 8-language parity, zero yue dictionary, fallback to en (NOT zh-CN), 0 CJK leak in en/es/fr/de
-    assert.deepEqual(arch.WORKBENCH_SUPPORTED_LANGS, SUPPORTED_8);
+    // 3) 9-locale parity, zero yue dictionary, fallback to en (NOT zh-CN), 0 CJK leak in en/es/fr/de
+    assert.deepEqual(arch.WORKBENCH_SUPPORTED_LANGS, SUPPORTED_9);
     assert.equal(arch.WORKBENCH_SUPPORTED_LANGS.includes('yue'), false);
     assert.equal(arch.normalizeWorkbenchLang('yue'), 'zh-CN');
+    assert.equal(arch.normalizeWorkbenchLang('th_TH'), 'th-TH');
     assert.equal(arch.normalizeWorkbenchLang('pt-BR'), 'en');
     assert.equal(arch.normalizeWorkbenchLang('unknown-xx'), 'en');
 
-    for (const lang of SUPPORTED_8) {
+    for (const lang of SUPPORTED_9) {
       const labels = arch.getStorageWorkbenchLabels(lang);
       assert.ok(labels.summary && labels.archiveOldMain && labels.restoreBtn && labels.refreshBtn && labels.oldMainReadyTpl);
       const txt = arch.formatStorageDetailReport({ ...scan, batches: [] }, lang);
@@ -688,7 +689,7 @@ test('PrismDaemon: storage-detail, confirmed >14d prepare-archive, multi-batch r
   }
 });
 
-test('settings-panel (Ch9): lazy <details> drawer, 3-way mutually exclusive confirm gates (>14d + archive-restart + multi-batch restore), 8-locale 0 CJK leak, and 0 B into Ch1 / 0 BOM / 0 CRLF', async () => {
+test('settings-panel (Ch9): lazy <details> drawer, 3-way mutually exclusive confirm gates (>14d + archive-restart + multi-batch restore), 9-locale 0 CJK leak, and 0 B into Ch1 / 0 BOM / 0 CRLF', async () => {
   // 1) Architecture & engineering gates: settings-panel.js stays in Ch9 (0 B into Ch1), pulse-vial-bridge < 31KB, 0 BOM / 0 CRLF
   assert.equal(cdp.RUNTIME_PARTS.includes('settings-panel.js'), false, 'settings-panel.js must remain outside Ch1 RUNTIME_PARTS');
   assert.ok(fs.statSync(path.join(ROOT, 'pulse-vial-bridge.js')).size < 31000, 'pulse-vial-bridge.js must stay < 31,000 B');
@@ -887,7 +888,7 @@ test('settings-panel (Ch9): lazy <details> drawer, 3-way mutually exclusive conf
     assert.ok(chip.textContent.includes('archive-old-main.command'));
 
     // 3) All 8 locales mount cleanly with 0 CJK leakage in non-CJK languages (en/es/fr/de)
-    for (const lang of SUPPORTED_8) {
+    for (const lang of SUPPORTED_9) {
       const { doc: langDoc } = createMiniDom();
       const lStore = new Map([['ag-prism:settings-open', '1'], ['ag-prism:settings-subtab', 'about']]);
       const lStorage = {

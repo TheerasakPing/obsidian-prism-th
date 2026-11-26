@@ -531,7 +531,7 @@ test('Channel 10 hot-reload: updating window.__agDualMascotRig and calling sync(
 });
 
 test('Gate checks: Channel 1 stays < 549,500 B across all 9 languages and edited files have 0 BOM / 0 CRLF / 0 :has() / 0 non-ASCII CSS', () => {
-  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const bytes = Buffer.byteLength(
       cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, language: lang }, { bundleCachePath: '' }),
       'utf8'

@@ -2237,6 +2237,27 @@ const STORAGE_WB_I18N = {
     none: 'Aucun',
     hint: 'Politique sans perte : déplacement seul avec manifest.json et restauration par lot ; fermez Antigravity avant d’exécuter les scripts.',
   },
+  'th-TH': {
+    summary: 'รายละเอียดพื้นที่จัดเก็บและเครื่องมือเก็บถาวรแบบไม่สูญเสียข้อมูล',
+    archiveOldMain: 'รวมบทสนทนาหลักที่เก่ากว่า 14 วัน',
+    restoreBtn: 'สร้างสคริปต์กู้คืนแบบออฟไลน์',
+    refreshBtn: 'รีเฟรช',
+    restoreReadyTpl: 'สคริปต์กู้คืนพร้อมแล้ว ({0}): {1} (โปรดปิด Antigravity ก่อนรัน)',
+    oldMainReadyTpl: 'สคริปต์เก็บบทสนทนาหลักเก่าพร้อมแล้ว ({0} รายการ / {1}): {2} (โปรดปิด Antigravity ก่อนรัน)',
+    breakdown: 'รายละเอียดการใช้พื้นที่',
+    main: 'บทสนทนาหลัก',
+    subagent: 'เอเจนต์ย่อย',
+    wal: 'บันทึก WAL',
+    unknown: 'ยังไม่จัดทำดัชนี',
+    lsMem: 'หน่วยความจำของบริการเบื้องหลัง',
+    archivable: 'เก็บถาวรได้อย่างปลอดภัย',
+    archSub: 'เอเจนต์ย่อยที่ทำงานเสร็จแล้ว',
+    archOld: 'บทสนทนาหลักเก่ากว่า 14 วัน (เก็บ 20 รายการล่าสุดไว้)',
+    topTitle: '5 บทสนทนาที่ใช้พื้นที่มากที่สุด (อ่านอย่างเดียว)',
+    batchTitle: 'ชุดข้อมูลเก็บถาวรย้อนหลังแบบไม่สูญเสียข้อมูล',
+    none: 'ไม่มี',
+    hint: 'หลักการไม่สูญเสียข้อมูล: ย้ายเท่านั้น ไม่ลบ พร้อม manifest.json และกู้คืนแยกตามชุดได้; โปรดปิด Antigravity ก่อนเรียกใช้สคริปต์',
+  },
   de: {
     summary: 'Speicherdetails & verlustfreie Archiv-Werkbank',
     archiveOldMain: 'Hauptchats >14 T. einschließen',
@@ -2260,7 +2281,7 @@ const STORAGE_WB_I18N = {
   },
 };
 
-export const WORKBENCH_SUPPORTED_LANGS = Object.freeze(['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']);
+export const WORKBENCH_SUPPORTED_LANGS = Object.freeze(['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']);
 
 export function normalizeWorkbenchLang(lang = 'en') {
   const s = String(lang || '').trim().toLowerCase().replace(/_/g, '-');
@@ -2272,6 +2293,7 @@ export function normalizeWorkbenchLang(lang = 'en') {
   if (s === 'es' || s.startsWith('es-')) return 'es';
   if (s === 'fr' || s.startsWith('fr-')) return 'fr';
   if (s === 'de' || s.startsWith('de-')) return 'de';
+  if (s === 'th' || s.startsWith('th-') || s === 'thai') return 'th-TH';
   return 'en';
 }
 

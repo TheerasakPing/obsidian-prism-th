@@ -1168,7 +1168,7 @@ test('v0.9.1 live compatibility: [data-ag-pulse-bar="true"][data-scope="main"] h
   }
 });
 
-test('OP-5.2 / HS-8.3 / UX-9 & <31,000B gate: light+warm alabaster alignment, targetFps=60 rAF throttling, and live 8-language switching', async () => {
+test('OP-5.2 / HS-8.3 / UX-9 & <31,000B gate: light+warm alabaster alignment, targetFps=60 rAF throttling, and live 9-locale switching', async () => {
   const rawSrc = fs.readFileSync(BRIDGE_PATH, 'utf8');
   assert.equal(rawSrc.includes('\r'), false, 'pulse-vial-bridge.js must use LF line endings');
   assert.ok(Buffer.byteLength(rawSrc, 'utf8') < 31000, `pulse-vial-bridge.js must stay < 31,000B, got ${Buffer.byteLength(rawSrc, 'utf8')}`);
@@ -1263,7 +1263,7 @@ test('OP-5.2 / HS-8.3 / UX-9 & <31,000B gate: light+warm alabaster alignment, ta
     assert.equal(host.getAttribute('data-pv-preset'), 'alabaster');
     assert.equal(bridge.getDebugState().lightPreset, 'alabaster');
 
-    // 2. UX-9: Unset/auto defaults cleanly to English (zero Chinese leak), plus live 8-language switching & yue->zh-CN migration
+    // 2. UX-9: Unset/auto defaults cleanly to English (zero Chinese leak), plus live 9-locale switching & yue->zh-CN migration
     const toggleBtn = sr.querySelector('[data-ag-pulse-vial-toggle="1"]');
     const segs = sr.querySelectorAll('[data-layer-slice]');
     const taskSplit = sr.querySelector('[data-ag-pulse-qtask="1"]');

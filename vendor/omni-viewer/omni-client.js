@@ -38,21 +38,21 @@
   const HL_PATH_NAME = 'ag-omni-path';
   const GUID_RE = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
 
-  // Compact 8-locale fallback table [zh-CN, zh-TW, en, ja, ko, es, fr, de]; primary source is `window.__agCsLocales`
-  const LANG_INDEX = { 'zh-CN': 0, 'zh-TW': 1, en: 2, ja: 3, ko: 4, es: 5, fr: 6, de: 7 };
+  // Compact 9-locale fallback table [zh-CN, zh-TW, en, ja, ko, es, fr, de, th-TH]; primary source is `window.__agCsLocales`
+  const LANG_INDEX = { 'zh-CN': 0, 'zh-TW': 1, en: 2, ja: 3, ko: 4, es: 5, fr: 6, de: 7, 'th-TH': 8 };
   const FALLBACK_ROWS = {
-    omniOpenBuiltin: ['在右侧面板打开', '在右側面板開啟', 'Open in Side Pane', '右パネルで開く', '오른쪽 패널에서 열기', 'Abrir en panel lateral', 'Ouvrir dans le panneau latéral', 'Im Seitenbereich öffnen'],
-    omniOpenPreview: ['在右侧检视台预览', '在右側檢視台預覽', 'Preview in Workbench', 'ワークベンチでプレビュー', '워크벤치에서 미리보기', 'Previsualizar en Workbench', 'Aperçu dans Workbench', 'In Workbench vorschauen'],
-    omniOpenExternal: ['使用系统默认程序打开', '使用系統預設程式開啟', 'Open in Default App', '既定のアプリで開く', '기본 앱으로 열기', 'Abrir en app predeterminada', 'Ouvrir avec l’app par défaut', 'In Standard-App öffnen'],
-    omniOpenBrowser: ['在系统浏览器中打开', '在系統瀏覽器中開啟', 'Open in System Browser', '標準ブラウザで開く', '시스템 브라우저에서 열기', 'Abrir en el navegador', 'Ouvrir dans le navigateur', 'Im Systembrowser öffnen'],
-    omniRevealFolder: ['在文件夹中显示', '在資料夾中顯示', 'Reveal in Folder', 'フォルダに表示', '폴더에서 보기', 'Mostrar en carpeta', 'Afficher dans le dossier', 'Im Ordner anzeigen'],
-    omniInsertMention: ['作为 @引用 填入输入框', '作為 @引用 填入輸入框', 'Insert as @Mention', '@参照として入力欄へ挿入', '@멘션으로 입력창에 삽입', 'Insertar como @mención', 'Insérer comme @mention', 'Als @Erwähnung einfügen'],
-    omniCopyLink: ['复制链接地址', '複製連結位址', 'Copy Link URL', 'リンクURLをコピー', '링크 URL 복사', 'Copiar enlace', 'Copier le lien', 'Link-URL kopieren'],
-    omniCopyAbsPath: ['复制绝对路径', '複製絕對路徑', 'Copy Absolute Path', '絶対パスをコピー', '절대 경로 복사', 'Copiar ruta absoluta', 'Copier le chemin absolu', 'Absoluten Pfad kopieren'],
-    omniCopyRelPath: ['复制相对路径', '複製相對路徑', 'Copy Relative Path', '相対パスをコピー', '상대 경로 복사', 'Copiar ruta relativa', 'Copier le chemin relatif', 'Relativen Pfad kopieren'],
-    omniCopyText: ['复制文本', '複製文字', 'Copy Text', 'テキストをコピー', '텍스트 복사', 'Copiar texto', 'Copier le texte', 'Text kopieren'],
-    omniZoomDiagram: ['放大查看图表', '放大檢視圖表', 'Zoom Diagram', '図を拡大表示', '다이어그램 확대', 'Ampliar diagrama', 'Agrandir le diagramme', 'Diagramm vergrößern'],
-    omniViewWorkbench: ['检视台视图', '檢視台檢視', 'Workbench View', 'プレビュー表示', '워크벤치 보기', 'Vista Workbench', 'Vue Workbench', 'Workbench-Ansicht'],
+    omniOpenBuiltin: ['在右侧面板打开', '在右側面板開啟', 'Open in Side Pane', '右パネルで開く', '오른쪽 패널에서 열기', 'Abrir en panel lateral', 'Ouvrir dans le panneau latéral', 'Im Seitenbereich öffnen', 'เปิดแถบข้าง'],
+    omniOpenPreview: ['在右侧检视台预览', '在右側檢視台預覽', 'Preview in Workbench', 'ワークベンチでプレビュー', '워크벤치에서 미리보기', 'Previsualizar en Workbench', 'Aperçu dans Workbench', 'In Workbench vorschauen', 'ดูใน Workbench'],
+    omniOpenExternal: ['使用系统默认程序打开', '使用系統預設程式開啟', 'Open in Default App', '既定のアプリで開く', '기본 앱으로 열기', 'Abrir en app predeterminada', 'Ouvrir avec l’app par défaut', 'In Standard-App öffnen', 'เปิดแอป'],
+    omniOpenBrowser: ['在系统浏览器中打开', '在系統瀏覽器中開啟', 'Open in System Browser', '標準ブラウザで開く', '시스템 브라우저에서 열기', 'Abrir en el navegador', 'Ouvrir dans le navigateur', 'Im Systembrowser öffnen', 'เปิดเว็บ'],
+    omniRevealFolder: ['在文件夹中显示', '在資料夾中顯示', 'Reveal in Folder', 'フォルダに表示', '폴더에서 보기', 'Mostrar en carpeta', 'Afficher dans le dossier', 'Im Ordner anzeigen', 'เปิดโฟลเดอร์'],
+    omniInsertMention: ['作为 @引用 填入输入框', '作為 @引用 填入輸入框', 'Insert as @Mention', '@参照として入力欄へ挿入', '@멘션으로 입력창에 삽입', 'Insertar como @mención', 'Insérer comme @mention', 'Als @Erwähnung einfügen', 'แทรก @Mention'],
+    omniCopyLink: ['复制链接地址', '複製連結位址', 'Copy Link URL', 'リンクURLをコピー', '링크 URL 복사', 'Copiar enlace', 'Copier le lien', 'Link-URL kopieren', 'คัดลอก URL'],
+    omniCopyAbsPath: ['复制绝对路径', '複製絕對路徑', 'Copy Absolute Path', '絶対パスをコピー', '절대 경로 복사', 'Copiar ruta absoluta', 'Copier le chemin absolu', 'Absoluten Pfad kopieren', 'คัดลอกพาธเต็ม'],
+    omniCopyRelPath: ['复制相对路径', '複製相對路徑', 'Copy Relative Path', '相対パスをコピー', '상대 경로 복사', 'Copiar ruta relativa', 'Copier le chemin relatif', 'Relativen Pfad kopieren', 'คัดลอกพาธ'],
+    omniCopyText: ['复制文本', '複製文字', 'Copy Text', 'テキストをコピー', '텍스트 복사', 'Copiar texto', 'Copier le texte', 'Text kopieren', 'คัดลอกข้อความ'],
+    omniZoomDiagram: ['放大查看图表', '放大檢視圖表', 'Zoom Diagram', '図を拡大表示', '다이어그램 확대', 'Ampliar diagrama', 'Agrandir le diagramme', 'Diagramm vergrößern', 'ซูมแผนภาพ'],
+    omniViewWorkbench: ['检视台视图', '檢視台檢視', 'Workbench View', 'プレビュー表示', '워크벤치 보기', 'Vista Workbench', 'Vue Workbench', 'Workbench-Ansicht', 'มุมมอง Workbench'],
     omniViewRaw: ['原始视图', '原始檢視', 'Raw View', 'ソース表示', '원본 보기', 'Vista sin formato', 'Vue brute', 'Rohansicht'],
     omniViewPreview: ['预览', '預覽', 'Preview', 'プレビュー', '미리보기', 'Vista previa', 'Aperçu', 'Vorschau'],
     omniViewSource: ['源码', '原始碼', 'Source', 'ソース', '소스', 'Código fuente', 'Code source', 'Quelltext'],

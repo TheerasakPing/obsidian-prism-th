@@ -1160,7 +1160,7 @@ test('Settings panel 8-locale Memory/DB Guard + GOMEMLIMIT controls and engineer
   ];
   for (const k of newKeys) {
     const row = i18nLocales.UI_TABLE[k];
-    assert.ok(Array.isArray(row) && row.length === 8, `Missing 8-locale row for ${k}`);
+    assert.ok(Array.isArray(row) && row.length === 9, `Missing 9-locale row for ${k}`);
     for (const idx of [2, 5, 6, 7]) {
       assert.equal(CJK_RE.test(row[idx]), false, `CJK leak in ${k}[${idx}]: ${row[idx]}`);
     }

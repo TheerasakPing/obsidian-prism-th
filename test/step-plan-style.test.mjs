@@ -88,7 +88,7 @@ test('step-plan checklist card and home-panel align with Obsidian Prism floating
   const minified = cdp.minifyCss(css);
   assert.ok(minified.includes('[data-testid="step-plan"]'), 'minified CSS must retain step-plan rules');
   assert.ok(minified.includes('[data-testid="step-plan-item"]'), 'minified CSS must retain step-plan-item rules');
-  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const ch1Bytes = Buffer.byteLength(cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, language: lang }, { bundleCachePath: '' }), 'utf8');
     assert.ok(ch1Bytes < 549500, `Channel 1 (${lang}) bundle (${ch1Bytes} B) must stay < 549,500 B`);
   }

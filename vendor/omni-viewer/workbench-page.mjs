@@ -256,7 +256,7 @@ export function formatTimecodeMs(seconds) {
   return `${pad2(min)}:${pad2(sec)}.${pad3(ms)}`;
 }
 
-// 8+1-language table: [zh-CN, zh-TW, yue, en, ja, ko, es, fr, de]
+// 9+1-language table: [zh-CN, zh-TW, yue, en, ja, ko, es, fr, de, th-TH]
 export const WORKBENCH_I18N = {
   viewCanvas: ['画布', '畫布', '畫布', 'Canvas', 'キャンバス', '캔버스', 'Lienzo', 'Canevas', 'Leinwand'],
   viewSource: ['源码', '原始碼', '源碼', 'Source', 'ソース', '소스', 'Código', 'Source', 'Quelltext'],
@@ -588,8 +588,21 @@ html, body {
 }
 `;
 
+export const THAI_WORKBENCH_I18N = {
+  viewCanvas: 'แคนวาส', viewSource: 'ซอร์สโค้ด', viewPreview: 'ตัวอย่าง', viewSplit: 'แบ่งหน้าจอ', viewTable: 'ตาราง', viewRaw: 'ข้อความดิบ',
+  bgChecker: 'ตารางหมากรุก', bgCheckerLight: 'ตารางสีอ่อน', bgCheckerDark: 'ตารางสีเข้ม', bgDark: 'มืด', bgLight: 'สว่าง',
+  fitWin: 'พอดีหน้าต่าง', zoom100: 'ขนาดจริง', copySvg: 'คัดลอก SVG', copyText: 'คัดลอก',
+  prevFrame: '-1 เฟรม', nextFrame: '+1 เฟรม', playPause: 'เล่น / หยุด', loopOne: 'วนซ้ำ',
+  setPointA: 'กำหนดจุด A', setPointB: 'กำหนดจุด B', clearAB: 'ล้าง A-B', saveFrame: 'บันทึกเฟรม', copyFrame: 'คัดลอกเฟรม',
+  addMarker: '+ เพิ่ม Marker', copyMarkers: 'คัดลอก Timecode', vpDesktop: 'เดสก์ท็อป 100%', vpTablet: 'แท็บเล็ต 768px', vpMobile: 'มือถือ 390px',
+  reloadBtn: 'โหลดใหม่', filterPh: 'กรองแถว…', loadMore: 'โหลดเพิ่ม', prevPage: 'ก่อนหน้า', nextPage: 'ถัดไป',
+  rowsUnit: 'แถว', colsUnit: 'คอลัมน์', fontPh: 'พิมพ์ข้อความตัวอย่าง…', fontLiga: 'Ligatures', wrapLines: 'ตัดบรรทัด',
+  copiedOk: 'คัดลอกไปยังคลิปบอร์ดแล้ว', savedPng: 'ส่งออก PNG แล้ว', loading: 'กำลังโหลด…', emptyData: 'ไม่มีเนื้อหาให้แสดง',
+  loadError: 'โหลดไฟล์ไม่สำเร็จ', waitingMermaid: 'กำลังรอข้อมูลแผนภาพ…', sandboxIsolated: 'Sandbox แยกการทำงาน',
+};
+
 function bootPrismWorkbench(INIT_STATE, I18N_TABLE) {
-  const LANG_IDX = { 'zh-CN': 0, 'zh-TW': 1, yue: 2, en: 3, ja: 4, ko: 5, es: 6, fr: 7, de: 8 };
+  const LANG_IDX = { 'zh-CN': 0, 'zh-TW': 1, yue: 2, en: 3, ja: 4, ko: 5, es: 6, fr: 7, de: 8, 'th-TH': 9 };
   const urlQs = new URLSearchParams(typeof location !== 'undefined' ? location.search : '');
   const readHashParams = () =>
     new URLSearchParams(typeof location !== 'undefined' && location.hash ? location.hash.slice(1) : '');
@@ -620,8 +633,9 @@ function bootPrismWorkbench(INIT_STATE, I18N_TABLE) {
   function tr(key) {
     const row = I18N_TABLE[key];
     if (!row) return key;
+    if (state.lang === 'th-TH' && THAI_WORKBENCH_I18N[key]) return THAI_WORKBENCH_I18N[key];
     const idx = Object.prototype.hasOwnProperty.call(LANG_IDX, state.lang) ? LANG_IDX[state.lang] : 0;
-    return row[idx] !== undefined ? row[idx] : row[0];
+    return row[idx] !== undefined ? row[idx] : row[3] ?? row[0];
   }
 
   function formatBytes(bytes) {
@@ -2845,7 +2859,7 @@ export function renderWorkbenchHtml(ctx = {}) {
   const rawCorners = ctx.corners || ctx.cornerStyle || 'balanced';
   const corners = ['sharp', 'balanced', 'soft'].includes(rawCorners) ? rawCorners : 'balanced';
   const rawLang = ctx.lang || ctx.language || 'zh-CN';
-  const lang = ['zh-CN', 'zh-TW', 'yue', 'en', 'ja', 'ko', 'es', 'fr', 'de'].includes(rawLang) ? rawLang : 'zh-CN';
+  const lang = ['zh-CN', 'zh-TW', 'yue', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'].includes(rawLang) ? rawLang : 'zh-CN';
   const fileName = String(ctx.name ?? ctx.fileName ?? (extractFileName(filePath) || (resolvedKind === 'mermaid' ? 'Mermaid Diagram' : 'Workbench')));
 
   const explicitKind = rawKind && rawKind !== 'auto' && SUPPORTED_KINDS.has(rawKind) ? rawKind : '';

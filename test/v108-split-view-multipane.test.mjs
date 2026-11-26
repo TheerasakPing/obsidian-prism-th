@@ -335,7 +335,7 @@ test('Issue #62 CSS & Budget Gate: tiling-splitter transparent hitbox + ::before
   assert.equal(/innerHTML|outerHTML|insertAdjacentHTML/.test(pvbTxt), false);
 
   // Channel 1 9-lang budget < 549,500 B
-  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const expr = cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, language: lang }, { bundleCachePath: '' });
     const bytes = Buffer.byteLength(expr, 'utf8');
     assert.ok(bytes < 549500, `Channel 1 (${lang}) must stay < 549,500 B, got ${bytes}`);

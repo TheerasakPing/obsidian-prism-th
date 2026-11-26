@@ -72,6 +72,7 @@ npm test
 | นำ source upstream เข้ามาใน integration branch | เสร็จ — 242 upstream files, merge ยังอยู่บน integration branch |
 | ตรวจ dependencies และรันทดสอบ upstream | 790 ผ่าน, 1 ไม่ผ่านจาก Swift SDK x86_64 บนเครื่องนี้, 17 skipped |
 | ตรวจสอบ i18n runtime และ locale call sites | เสร็จ — ดู `docs/LOCALIZATION_INVENTORY_TH.md` |
+| เพิ่มภาษาไทยใน UI runtime | เสร็จในระดับ code — 329/345 keys (95.4%); รอ host QA |
 | แปล UI เป็นภาษาไทย | ยังไม่เริ่ม |
 | ทดสอบบน Antigravity จริง | ยังไม่เริ่ม |
 | สร้างแพ็กเกจติดตั้ง | ยังไม่เริ่ม |
@@ -101,3 +102,6 @@ npm test
 **Obsidian Prism is an independent open-source project and is not affiliated with or endorsed by Google LLC.**
 
 โครงการนี้เป็นงานชุมชนที่พัฒนาแยกต่างหาก ไม่ใช่โครงการทางการ ไม่ได้รับการรับรอง หรือสนับสนุนโดย Google LLC หรือผู้พัฒนา upstream การกล่าวถึง Google และ Antigravity มีไว้เพื่ออธิบายความเข้ากันได้เท่านั้น
+
+
+**Thai Edition status:** locale `th-TH` is the default; 329/345 main UI strings are translated, with 16 brand/technical labels intentionally unchanged. Host-application QA is still pending.

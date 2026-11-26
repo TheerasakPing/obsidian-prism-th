@@ -715,7 +715,7 @@ test('7. Dual-mode curated menu (plain vs selection), no banned commands, SVG ic
   ctl.destroy();
 });
 
-test('8. 8-language live sync (zh-CN, zh-TW, en, ja, ko, es, fr, de) + yue->zh-CN migration including live refresh while open', () => {
+test('8. 9-locale live sync (zh-CN, zh-TW, en, ja, ko, es, fr, de, th-TH) + yue->zh-CN migration including live refresh while open', () => {
   const env = createMockEnv();
   const ctl = ctxMenuMod.createContextMenuController({ doc: env.doc, win: env.win, nav: env.nav, loc: env.loc, stepDelayMs: 0 });
 

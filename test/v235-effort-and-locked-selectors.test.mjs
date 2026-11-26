@@ -515,7 +515,7 @@ test('v2.35.0: style.css handles locked model/permissions triggers with zero :ha
     'light theme permissions-selector-trigger hover rule must exclude disabled/locked states'
   );
 
-  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+  for (const lang of ['auto', 'zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
     const payloadBytes = Buffer.byteLength(cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, language: lang }, { bundleCachePath: '' }), 'utf8');
     assert.ok(payloadBytes < 549500, `Channel 1 (${lang}) payload must stay < 549,500 B, got ${payloadBytes}`);
   }

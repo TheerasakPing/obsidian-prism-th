@@ -75,6 +75,7 @@
     if (/^es/.test(l) || l === 'spanish') return 'es';
     if (/^fr/.test(l) || l === 'french') return 'fr';
     if (/^de/.test(l) || l === 'german') return 'de';
+    if (/^th(?:-|$)/.test(l) || l === 'thai') return 'th-TH';
     return 'en';
   }
 
@@ -360,8 +361,8 @@
     }
 
     const SIDEBAR_MORE_FB = {
-      sidebarMoreLabel: { 'zh-CN': '更多', 'zh-TW': '更多', en: 'More', ja: 'その他', ko: '더보기', es: 'Más', fr: 'Plus', de: 'Mehr' },
-      sidebarLessLabel: { 'zh-CN': '收起', 'zh-TW': '收起', en: 'Less', ja: '折りたたむ', ko: '접기', es: 'Menos', fr: 'Moins', de: 'Weniger' },
+      sidebarMoreLabel: { 'zh-CN': '更多', 'zh-TW': '更多', en: 'More', ja: 'その他', ko: '더보기', es: 'Más', fr: 'Plus', de: 'Mehr', 'th-TH': 'เพิ่มเติม' },
+      sidebarLessLabel: { 'zh-CN': '收起', 'zh-TW': '收起', en: 'Less', ja: '折りたたむ', ko: '접기', es: 'Menos', fr: 'Moins', de: 'Weniger', 'th-TH': 'ย่อ' },
     };
     function getUiText(key, fallback) {
       if (tFn) {

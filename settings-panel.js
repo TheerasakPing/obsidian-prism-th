@@ -162,7 +162,7 @@
     homeRipple: S_T,
     convRipple: mkSp(['off', 'subtle', 'medium', 'full'], 'off', { on: 'medium', true: 'medium', false: 'off' }),
     logoInk: mkSp(['accent', 'foreground']),
-    language: mkSp(['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de'], 'zh-CN', { yue: 'zh-CN', 'zh-HK': 'zh-TW', 'zh-MO': 'zh-TW' }),
+    language: mkSp(['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH'], 'th-TH', { yue: 'zh-CN', 'zh-HK': 'zh-TW', 'zh-MO': 'zh-TW' }),
     hostLocalization: S_AUTO,
     composerRestyle: S_T,
     placeholderStyle: mkSp(['studio', 'host']),

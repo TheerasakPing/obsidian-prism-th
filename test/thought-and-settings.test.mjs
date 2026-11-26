@@ -691,7 +691,7 @@ test('settings-panel lazy foldBody deferral on collapsed mount, memoized syncRoo
     // Updating state while collapsed updates fold summary in O(1) without building or scanning buttons
     state.palette = 'warm';
     mountOrSync();
-    assert.equal(summaryEl.textContent, 'zh-CN:warm:ultra');
+    assert.equal(summaryEl.textContent, 'th-TH:warm:ultra');
     assert.equal(foldBody.children.length, 0);
     assert.equal(matchCalls, 0);
 

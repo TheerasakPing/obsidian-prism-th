@@ -360,8 +360,8 @@ test('inject expression mounts cleanly without model-button or telemetry conflic
     assert.equal(html.getAttribute('data-ag-cs-style'), '1');
     assert.equal(html.getAttribute('data-ag-cs-palette'), 'obsidian');
     assert.equal(html.getAttribute('data-ag-cs-home'), 'studio');
-    assert.equal(h1.textContent, '接下来做什么？');
-    assert.equal(placeholder.getAttribute('data-ag-cs-placeholder'), '描述任务或提出问题');
+    assert.equal(h1.textContent, 'วันนี้อยากเริ่มทำอะไรดี?');
+    assert.equal(placeholder.getAttribute('data-ag-cs-placeholder'), 'พิมพ์…');
 
     // Coexistence & zero-interference guarantees
     assert.equal(sandbox.window.__agCsI18n, undefined);
@@ -445,7 +445,7 @@ test('inject expression mounts cleanly without model-button or telemetry conflic
     assert.equal(generalPanel.querySelector('#ag-cs-settings-sec'), null);
     const settingsSec = appearancePanel.querySelector('#ag-cs-settings-sec');
     assert.ok(settingsSec);
-    assert.equal(settingsSec.querySelector('h3')?.textContent, 'Obsidian Prism · 黑曜棱镜');
+    assert.equal(settingsSec.querySelector('h3')?.textContent, 'Obsidian Prism · ฉบับภาษาไทย');
     assert.equal(settingsSec.querySelector('.ag-cs-settings-ver')?.textContent, 'v1.0.8-beta.3');
     const brandMarkHtml = settingsSec.querySelector('.ag-cs-settings-brand-mark')?.innerHTML || '';
     assert.ok(
@@ -516,7 +516,7 @@ test('inject expression mounts cleanly without model-button or telemetry conflic
     assert.ok(licPreText.includes('RMvdesi'));
     assert.ok(licPreText.includes('MIT License'));
     assert.ok(
-      aboutBox.querySelector('.ag-cs-about-disclaimer')?.textContent?.includes('not affiliated with or endorsed by Google LLC')
+      aboutBox.querySelector('.ag-cs-about-disclaimer')?.textContent?.includes('ไม่มีส่วนเกี่ยวข้องหรือได้รับการรับรองจาก Google LLC')
     );
     assert.ok(aboutBox.querySelector('button[data-ag-cs-repo-sync]'), 'Expected Git sync button in About box');
 
@@ -592,7 +592,7 @@ test('inject expression mounts cleanly without model-button or telemetry conflic
     };
 
     // Verify all 8 language buttons switch dashboard, greeting, placeholder & settings copy + emit CDP binding (no yue)
-    assert.equal(getLangBtns().length, 8, 'Expected exactly 8 language buttons');
+    assert.equal(getLangBtns().length, 9, 'Expected exactly 9 language buttons');
     assert.equal(getLangBtns().some((b) => b.getAttribute('data-ag-cs-val') === '"yue"'), false, 'yue button must be removed');
     checkLangSwitch('zh-TW', '外觀', '介面語言', '概覽', '接下來做什麼？', '描述任務或提出問題');
     checkLangSwitch('ko', 'Appearance', 'UI 언어', '개요', '다음은 무엇을 할까요?', '작업 설명이나 질문을 입력하세요');
@@ -631,7 +631,7 @@ test('inject expression mounts cleanly without model-button or telemetry conflic
       .querySelectorAll('#ag-cs-settings-sec button')
       .find((b) => b.getAttribute('data-ag-cs-key') === 'palette' && b.getAttribute('data-ag-cs-val') === '"warm"');
     assert.ok(warmBtn, 'Expected Alabaster Warm palette button');
-    assert.equal(warmBtn.textContent, 'Alabaster 暖岩');
+    assert.equal(warmBtn.textContent, 'อุ่น');
     assert.equal(warmBtn.getAttribute('aria-pressed'), 'true');
     assert.equal(warmBtn.hasAttribute('data-pressed'), true);
 

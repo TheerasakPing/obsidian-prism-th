@@ -3192,6 +3192,7 @@ export class PrismDaemon {
       if (s === 'es' || s.startsWith('es-')) return 'es';
       if (s === 'fr' || s.startsWith('fr-')) return 'fr';
       if (s === 'de' || s.startsWith('de-')) return 'de';
+      if (s === 'th' || s.startsWith('th-')) return 'th-TH';
       if (s === 'yue' || s.startsWith('yue-') || s === 'zh-yue') return 'zh-CN';
       if (/^zh-(?:tw|hk|mo|hant)(?:-|$)/.test(s)) return 'zh-TW';
       if (s === 'zh' || s.startsWith('zh-')) return 'zh-CN';

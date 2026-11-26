@@ -2161,7 +2161,7 @@ test('13) CodeQL High alerts zero-regression: 0 rejectUnauthorized:false, 0 HTML
   ch5Env.sandbox.__agPrismThought.destroy();
 });
 
-test('14) Conversation titles auto-translation: config persistence, safe filtering, identifier protection, React TextNode reuse, detached pruning, lossless restore & 8-locale UI', async () => {
+test('14) Conversation titles auto-translation: config persistence, safe filtering, identifier protection, React TextNode reuse, detached pruning, lossless restore & 9-locale UI', async () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'prism-titles-'));
   try {
     // A) Legacy config backward compat: missing translateTitles defaults to false
@@ -2410,7 +2410,7 @@ test('14) Conversation titles auto-translation: config persistence, safe filteri
 
     // 8-locale label & description verification (+ yue->zh-CN migration)
     const seenDescs = new Set();
-    for (const loc of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+    for (const loc of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
       curLang = loc;
       uiHandle.onLanguageChanged(loc);
       assert.ok(titlesDesc.textContent.length > 15, `titles desc must be non-empty for ${loc}`);
@@ -2456,7 +2456,7 @@ function hasUrlHostname(rawUrl, expectedHostname) {
   }
 }
 
-test('15) One-click Thought Diagnostics: all states, 5s bounded timeout, strict secret redaction & 8-locale 4-item UI strip', async () => {
+test('15) One-click Thought Diagnostics: all states, 5s bounded timeout, strict secret redaction & 9-locale 4-item UI strip', async () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'prism-diag-'));
   try {
     // A) Off mode & incomplete AI profile (no network call)
@@ -2654,12 +2654,12 @@ test('15) One-click Thought Diagnostics: all states, 5s bounded timeout, strict 
 
     // 8-locale live refresh on diagnose button & panel
     const diagBtnLabels = new Set();
-    for (const loc of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de']) {
+    for (const loc of ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'th-TH']) {
       curLang = loc;
       uiHandle.onLanguageChanged(loc);
       diagBtnLabels.add(`${loc}:${diagBtn.textContent}:${bridgeItem.textContent}`);
     }
-    assert.equal(diagBtnLabels.size, 8, 'All 8 locales must refresh diagnose button & 4-item panel');
+    assert.equal(diagBtnLabels.size, 9, 'All 9 locales must refresh diagnose button & 4-item panel');
 
     svc.dispose();
   } finally {
