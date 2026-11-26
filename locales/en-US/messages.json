@@ -1,0 +1,20 @@
+{
+  "app.name": "Obsidian Prism — Thai Edition",
+  "app.language": "Language",
+  "app.language.th": "Thai",
+  "app.language.en": "English",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "common.close": "Close",
+  "common.reset": "Restore defaults",
+  "common.loading": "Loading…",
+  "common.retry": "Try again",
+  "common.enabled": "Enabled",
+  "common.disabled": "Disabled",
+  "settings.title": "Settings",
+  "settings.language": "Display language",
+  "settings.language.description": "Choose the language used by Obsidian Prism",
+  "status.ready": "Ready",
+  "status.error": "An error occurred",
+  "status.updateAvailable": "Update available"
+}
