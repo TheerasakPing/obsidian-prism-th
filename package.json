@@ -1,0 +1,18 @@
+{
+  "name": "obsidian-prism-th",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Thai-first community localization edition of Obsidian Prism for Google Antigravity",
+  "license": "GPL-3.0-only",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "validate:locales": "node scripts/validate-locales.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheerasakPing/obsidian-prism-th.git"
+  },
+  "upstream": "https://github.com/RMvdesi/obsidian-prism"
+}
