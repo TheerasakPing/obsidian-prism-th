@@ -6,11 +6,11 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 
 ## 1. Executive summary
 
-**สถานะ: เปิดภาษาไทยเป็นค่าเริ่มต้นของ Thai Edition แล้ว — UI dictionary แปลไทย 329/345 keys (95.4%)** อีก 16 รายการเป็นชื่อแบรนด์ ชื่อเทคโนโลยี และหน่วย/ตัวเลขที่คงรูปเดิมโดยตั้งใจ
+**สถานะ: เปิดภาษาไทยเป็นค่าเริ่มต้นของ Thai Edition แล้ว — UI dictionary แปลไทย 333/345 keys (96.5%)** อีก 12 รายการเป็นชื่อแบรนด์ ชื่อธีม ชื่อฟอนต์ และหน่วย/ตัวเลขที่คงรูปเดิมโดยตั้งใจ
 
 - ระบบ UI localization เดิมใช้ JavaScript table ใน `i18n-locales.js` ไม่ได้อ่าน `locales/*/messages.json`
 - ระบบ locale metadata และ runtime รองรับ 9 ภาษาแล้ว: `zh-CN`, `zh-TW`, `en`, `ja`, `ko`, `es`, `fr`, `de`, `th-TH`
-- `UI_TABLE` มี 345 message keys; มีคอลัมน์ภาษาไทยครบ 345 แถว โดยแปลเป็นไทย 329 keys (95.4%); อีก 16 keys คงชื่อแบรนด์/ศัพท์เทคนิคเป็นภาษาเดิม
+- `UI_TABLE` มี 345 message keys; มีคอลัมน์ภาษาไทยครบ 345 แถว โดยแปลเป็นไทย 333 keys (96.5%); อีก 12 keys คงชื่อแบรนด์/ชื่อธีม/ชื่อฟอนต์/หน่วยเป็นภาษาเดิม
 - `th-TH` ถูก normalize เป็นภาษาไทยแล้ว; UI keys ที่แปลแล้วจะแสดงไทย ส่วนคีย์ที่ยังไม่แปลใช้ English fallback เพื่อป้องกันข้อความว่าง
 - Settings language selector, settings schema, CDP config validators และ tests รองรับ locale ที่ 9 (`th-TH`) แล้ว
 - Runtime มี early-boot locale slice 77 keys; เพิ่ม Thai แล้วและผ่าน Channel 1 size gate (546,895 bytes จากเพดาน 546,954 bytes)
@@ -20,7 +20,7 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 | Layer | Source files | Current behavior | Thai work required |
 |---|---|---|---|
 | Language metadata | `i18n-core.js` | 9 language IDs, labels, normalization, Intl/HTML lang mapping | เพิ่ม `th-TH`, label `ไทย`, metadata และ aliases แล้ว |
-| Main UI dictionary | `i18n-locales.js` | `UI_TABLE` มี 345 keys × 9 locales; 329 keys แปลไทย อีก 16 keys เป็นชื่อแบรนด์/ศัพท์เทคนิค | เพิ่ม Thai table, formatters และ helper formats แล้ว |
+| Main UI dictionary | `i18n-locales.js` | `UI_TABLE` มี 345 keys × 9 locales; 333 keys แปลไทย อีก 12 keys เป็นชื่อแบรนด์/ชื่อธีม/ชื่อฟอนต์/หน่วย | เพิ่ม Thai table, formatters และ helper formats แล้ว |
 | Settings selector | `settings-panel.js` | Language options sourced from `i18nCore.LANG_OPTIONS` | เพิ่ม Thai option แล้ว; ค่าเริ่มต้น Thai Edition เป็น `th-TH` |
 | Settings schema | `settings-panel.js` | `language` allowlist มี 9 locales; default เป็น `th-TH` | เพิ่ม `th-TH`; ตั้งค่า default Thai Edition เป็น `th-TH` แล้ว |
 | Config transport | `cdp.js` | `language` and `lang` validators รองรับ 9 locales | เพิ่ม Thai ใน validators และ boot config paths แล้ว |
@@ -40,7 +40,7 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 ## 3. Verified counts and behavior
 
 - `i18n-core.js`: 9 `LANG_OPTIONS`; Thai (`th-TH`) is listed with label `ไทย` and is the Thai Edition default.
-- `i18n-locales.js`: `LANG_IDS` = 9; `UI_TABLE` = 345 keys; all rows contain 9 non-empty strings; 329/345 Thai translations (95.4%); 16 brand/technical labels intentionally retain original terms.
+- `i18n-locales.js`: `LANG_IDS` = 9; `UI_TABLE` = 345 keys; all rows contain 9 non-empty strings; 333/345 Thai translations (96.5%); 12 brand/theme/font/unit labels intentionally retain canonical terms.
 - `getUiStrings()` returns 349 keys because it adds derived/helper strings beyond `UI_TABLE`.
 - `RUNTIME_UI_KEYS`: 77 keys used for the early boot slice.
 - `DICT_ROWS`: empty; `resolveLocaleBundle()` returns no DOM dictionary for `en` and only exposes the supported CJK bundles.
@@ -48,7 +48,9 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 - `locales/en-US/messages.json` and `locales/th-TH/messages.json`: 18 keys each; locale parity script passes, but these scaffold JSON catalogs are not yet the source of the main UI dictionary.
 - Main UI consumers: `ui-runtime.js`, `settings-panel.js`, `home-studio-panel.js`, and `sidecars/daemon/main.mjs`; independent locale consumers `usage-core.js`, `conversation-archive.mjs`, and Pulse fallback now have Thai support too. Third-party Pulse compatibility UI and Antigravity host UI remain separate scope.
 - Main UI boot payload: 77 runtime keys, Thai slice JSON size 3,187 bytes; Channel 1 generated payload 546,946 bytes (under the 546,954-byte hard limit).
-- Full upstream suite at the last complete run: 812 tests; 794 passed, 1 failed, 17 skipped. Additional vendor-locale regression tests: 124 passed, 0 failed. The only failure is the existing macOS universal Swift build: Command Line Tools SDK lacks x86_64 Swift compatibility libraries.
+- Focused Thai/i18n regression run (2026-11-27): 57 passed, 0 failed, 0 skipped.
+- Latest full `npm test` run: one known failure in the macOS universal `.app` build test; Swift linker cannot find x86_64 `swiftCompatibility56` and `swiftCompatibilityConcurrency` libraries in the active Command Line Tools SDK. The failure occurs in `compileUniversalSwift()` while compiling the x86_64 watcher target, not in Thai localization.
+- Previous complete full-suite baseline: 812 tests; 794 passed, 1 failed, 17 skipped. Additional vendor-locale regression baseline: 124 passed, 0 failed. The known macOS universal Swift build limitation is unchanged.
 
 ## 4. Critical compatibility constraints
 
@@ -63,7 +65,7 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 
 1. [x] กำหนด locale contract และ fallback policy สำหรับ Thai Edition.
 2. [x] เพิ่ม Thai normalization, metadata และ unit tests.
-3. [x] เพิ่ม locale ที่ 9; แปล 329/345 UI keys (95.4%); คง 16 brand/technical labels ตามต้นฉบับ.
+3. [x] เพิ่ม locale ที่ 9; แปล 333/345 UI keys (96.5%); คง 12 brand/theme/font/unit labels ตามต้นฉบับ.
 4. [x] เพิ่ม Thai ใน early-boot 77-key slice และ compact formatters; ผ่าน Channel 1 byte gate.
 5. [x] เพิ่ม Thai ใน Settings, config schema, CDP validators, Home Studio และ daemon.
 6. [x] เพิ่ม Thai ใน Usage Analytics, Storage Archive Workbench และ Pulse fallback; มี regression tests.

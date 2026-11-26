@@ -30,6 +30,13 @@ test('Thai locale has complete table shape, translated UI coverage, and Thai dyn
   const ui = locales.getUiStrings('th-TH');
   assert.equal(ui.setLanguageTitle, 'ภาษาของส่วนติดต่อ');
   assert.equal(ui.tabOverview, 'ภาพรวม');
+  assert.equal(ui.kpiCacheHit, 'อัตราแคชฮิต');
+  assert.equal(ui.swarmBadge, 'เอเจนต์กลุ่ม');
+  assert.equal(ui.optPlaceholderHost, 'โฮสต์');
+  assert.equal(ui.thoughtFieldBaseUrl, 'URL พื้นฐาน');
+  assert.equal(ui.thoughtFieldApiKey, 'คีย์ API');
+  assert.equal(ui.omniInsertMention, 'แทรกเป็น @กล่าวถึง');
+  assert.equal(ui.omniViewWorkbench, 'มุมมองเวิร์กเบนช์');
   assert.equal(ui.swarmSplitSub(60, 40), 'แชตหลัก 60% · เอเจนต์ 40%');
   assert.equal(ui.showMoreN(2), 'แสดงเพิ่มอีก 2 รายการ');
 });

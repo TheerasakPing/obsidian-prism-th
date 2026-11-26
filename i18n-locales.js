@@ -1727,8 +1727,8 @@
   };
 
 
-  // Thai Edition translations. Untranslated rows intentionally fall back to English
-  // until the full 345-key editorial translation pass is completed.
+  // Thai Edition translations. Brand names, named visual presets, font names and units
+  // intentionally retain their canonical labels; all other UI copy is localized.
   const THAI_UI = {
     sectionTitle: 'Obsidian Prism · ฉบับภาษาไทย',
     sectionSubtitle: 'ชุดเครื่องมือเพิ่มประสิทธิภาพและปรับแต่งหน้าตาสำหรับ Antigravity',
@@ -1778,7 +1778,7 @@
     tokenUnit: 'โทเคน',
     showLess: 'ย่อ',
     thinkingEllipsis: 'คิด…',
-    kpiCacheHit: 'Cache Hit',
+    kpiCacheHit: 'อัตราแคชฮิต',
     cacheRead: 'อ่าน Cache',
     cacheShort: 'Cache',
     quotaPoolsTitle: 'โควตา',
@@ -1905,7 +1905,7 @@
     setSidebarTitle: 'ปรับรูปแบบแถบด้านข้าง', setSidebarDesc: 'ใช้ความสูงแถวและพื้นหลังเมื่อชี้เมาส์ที่ปรับแต่งแล้วในแถบด้านข้าง',
     setSidebarCompactTitle: 'แถบด้านข้างแบบกะทัดรัด', setSidebarCompactDesc: 'ลดความสูงของแถวในแถบด้านข้างจาก 28px เหลือ 24px',
     setComposerTitle: 'ปรับรูปแบบช่องเขียนแชต', setComposerDesc: 'ช่องป้อนแชตแบบมินิมอลพร้อมส่วนท้ายพื้นที่ทำงานที่เรียบสะอาด',
-    setPlaceholderTitle: 'รูปแบบแชตตัวอย่าง', setPlaceholderDesc: 'สลับระหว่างแชตแนะนำของ Studio กับค่าเริ่มต้นของ Host', optPlaceholderHost: 'Host',
+    setPlaceholderTitle: 'รูปแบบแชตตัวอย่าง', setPlaceholderDesc: 'สลับระหว่างแชตแนะนำของ Studio กับค่าเริ่มต้นของ Host', optPlaceholderHost: 'โฮสต์',
     setSmoothCaretTitle: 'เคอร์เซอร์พิมพ์แบบลื่นไหล', setSmoothCaretDesc: 'เปิดการเคลื่อนที่แบบต่อเนื่องของเคอร์เซอร์ในช่องเขียนแชต',
     rowContextMenuTitle: 'เมนูด่วนของบทสนทนา (/btw)',
     rowContextMenuDesc: 'คลิกขวาที่ใดก็ได้ในบทสนทนาเพื่อเปิดแชตด้านข้าง /btw พร้อมแชตที่เลือก หรือเรียก /compact; กด Shift ค้างพร้อมคลิกขวาเพื่อเปิดเมนูดั้งเดิม',
@@ -1934,7 +1934,7 @@
     optStyleTech: 'ต้นฉบับเชิงเทคนิค', optStyleConcise: 'สรุปประเด็นสำคัญ', optStyleCustom: 'พรอมป์ต์กำหนดเอง',
     thoughtCustomPromptPh: 'ป้อนพรอมป์ต์สำหรับปรับสำนวน (บันทึกไว้ในเครื่องเท่านั้น)…',
     thoughtProfilesLabel: 'โปรไฟล์ OpenAI Endpoint', thoughtAddProfileBtn: '+ เพิ่มโปรไฟล์', thoughtDelProfileBtn: 'ลบ',
-    thoughtFieldName: 'ชื่อโปรไฟล์', thoughtFieldBaseUrl: 'Base URL', thoughtFieldApiKey: 'API Key', thoughtFieldModel: 'รหัสโมเดล',
+    thoughtFieldName: 'ชื่อโปรไฟล์', thoughtFieldBaseUrl: 'URL พื้นฐาน', thoughtFieldApiKey: 'คีย์ API', thoughtFieldModel: 'รหัสโมเดล',
     thoughtFetchModelsBtn: 'ดึงรายการโมเดล', thoughtSaveBtn: 'บันทึกการตั้งค่า', thoughtTestBtn: 'ส่งแชตทดสอบ',
     thoughtPrivacyHint: 'API keys และพรอมป์ต์ที่กำหนดเองจะจัดเก็บไว้ในเครื่องเท่านั้นและไม่ถูกอัปโหลด',
     workspaceFilterAria: 'กรอง',
@@ -1969,14 +1969,14 @@
     optThoughtImmersive: 'เต็มจอ', optThoughtBilingual: 'สองภาษา',
     cfgToolbarHint: 'ไฟล์ JSON ที่ส่งออกจะลบ API keys ทั้งหมดโดยอัตโนมัติเพื่อให้สำรองและแบ่งปันได้อย่างปลอดภัย',
     thoughtClearCacheBtn: 'ล้างแคช', thoughtViewLabel: 'มุมมองการอ่าน',
-    omniOpenPreview: 'ดูใน Workbench', omniRevealFolder: 'โฟลเดอร์', omniInsertMention: '@Mention',
+    omniOpenPreview: 'ดูใน Workbench', omniRevealFolder: 'โฟลเดอร์', omniInsertMention: 'แทรกเป็น @กล่าวถึง',
     omniCopyAbsPath: 'คัดลอกพาธ', omniCopyRelPath: 'คัดลอกพาธ', omniZoomDiagram: 'ซูม',
-    omniViewWorkbench: 'Workbench', omniViewRaw: 'มุมมองดิบ',
-    swarmBadge: 'Swarm', cacheShort: 'แคช', optStudio: 'สตูดิโอ', optObsidian: 'Obsidian',
+    omniViewWorkbench: 'มุมมองเวิร์กเบนช์', omniViewRaw: 'มุมมองดิบ',
+    swarmBadge: 'เอเจนต์กลุ่ม', cacheShort: 'แคช', optStudio: 'สตูดิโอ', optObsidian: 'Obsidian',
     optWarm: 'อุ่น', optClaude: 'Alabaster Warm', optLightCrystal: 'คริสตัล',
-    optLightAlabaster: 'อุ่น', optPlaceholderHost: 'Host', optFps60: '60 FPS',
-    optFps120: '120 FPS', optFps180: '180 FPS', thoughtFieldBaseUrl: 'Base URL',
-    thoughtFieldApiKey: 'API Key', subTabInteraction: 'พื้นที่ทำงาน', subTabThought: 'การคิด',
+    optLightAlabaster: 'อุ่น', optPlaceholderHost: 'โฮสต์', optFps60: '60 FPS',
+    optFps120: '120 FPS', optFps180: '180 FPS', thoughtFieldBaseUrl: 'URL พื้นฐาน',
+    thoughtFieldApiKey: 'คีย์ API', subTabInteraction: 'พื้นที่ทำงาน', subTabThought: 'การคิด',
     optFontSfmono: 'SF Mono / Consolas', optAmb0: '0%', optAmb35: '35%', optAmb70: '70%',
     optAmb100: '100%', optDarkAuraPrism: 'Polar Silk', optDarkAuraNeon: 'Abyssal Glow',
   });
