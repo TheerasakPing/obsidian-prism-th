@@ -1,0 +1,20 @@
+{
+  "app.name": "Obsidian Prism — ฉบับภาษาไทย",
+  "app.language": "ภาษา",
+  "app.language.th": "ไทย",
+  "app.language.en": "English",
+  "common.save": "บันทึก",
+  "common.cancel": "ยกเลิก",
+  "common.close": "ปิด",
+  "common.reset": "คืนค่าเริ่มต้น",
+  "common.loading": "กำลังโหลด…",
+  "common.retry": "ลองอีกครั้ง",
+  "common.enabled": "เปิดใช้งาน",
+  "common.disabled": "ปิดใช้งาน",
+  "settings.title": "การตั้งค่า",
+  "settings.language": "ภาษาที่แสดง",
+  "settings.language.description": "เลือกภาษาที่ใช้แสดงผลใน Obsidian Prism",
+  "status.ready": "พร้อมใช้งาน",
+  "status.error": "เกิดข้อผิดพลาด",
+  "status.updateAvailable": "มีอัปเดต"
+}
