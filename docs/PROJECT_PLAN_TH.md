@@ -52,11 +52,12 @@
 
 ### Phase 0 — Repository foundation
 - [x] สร้าง public repository
-- [ ] เพิ่มเอกสารและโครงสร้าง locale
-- [ ] ตรวจสอบ license, NOTICE และ third-party inventory
-- [ ] บันทึก upstream commit SHA และ release baseline
+- [x] เพิ่มเอกสารและโครงสร้าง locale
+- [x] ตรวจสอบ license, NOTICE และ third-party notices เบื้องต้น; ต้องตรวจ dependency/vendor license เพิ่มก่อน release
+- [x] บันทึก upstream commit SHA และ release baseline ใน `docs/UPSTREAM_AUDIT_TH.md`
 
 ### Phase 1 — Upstream baseline
+- [x] ตรวจ upstream tree, package metadata และบันทึก baseline SHA
 - [ ] นำ source ที่ได้รับอนุญาตเข้ามาโดยรักษาประวัติ/attribution ตามความเหมาะสม
 - [ ] ตรวจ package scripts, dependencies, installers และ test suite
 - [ ] รันทดสอบ upstream baseline ก่อนแก้ไข
