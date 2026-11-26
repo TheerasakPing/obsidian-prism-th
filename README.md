@@ -41,9 +41,9 @@ Upstream ระบุ `GPL-3.0-only` ใน `package.json` และมีเง
 | งาน | สถานะ |
 |---|---|
 | สร้าง public repository | เสร็จ |
-| วางเอกสารเริ่มต้น | กำลังดำเนินการ |
-| ตรวจสอบ upstream และ license | ตรวจ metadata และ notices เบื้องต้นแล้ว |
-| นำ source code upstream เข้ามา | ยังไม่เริ่ม |
+| วางเอกสารเริ่มต้น | เสร็จ |
+| ตรวจสอบ upstream และ license | ตรวจ tree 242 ไฟล์, package metadata และบันทึก baseline SHA แล้ว; ยังต้องตรวจ dependency/vendor licenses ก่อน import |
+| นำ source code upstream เข้ามา | รอ local Git import ตาม `docs/UPSTREAM_AUDIT_TH.md` |
 | แปล UI ครบทุกจุด | ยังไม่เริ่ม |
 | ทดสอบบน Antigravity จริง | ยังไม่เริ่ม |
 | สร้างแพ็กเกจติดตั้ง | ยังไม่เริ่ม |
