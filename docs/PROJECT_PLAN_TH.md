@@ -58,10 +58,10 @@
 
 ### Phase 1 — Upstream baseline
 - [x] ตรวจ upstream tree, package metadata และบันทึก baseline SHA
-- [ ] นำ source ที่ได้รับอนุญาตเข้ามาโดยรักษาประวัติ/attribution ตามความเหมาะสม
-- [ ] ตรวจ package scripts, dependencies, installers และ test suite
-- [ ] รันทดสอบ upstream baseline ก่อนแก้ไข
-- [ ] จัดทำ source-to-localization inventory
+- [x] นำ source upstream commit 41cc4817bf6da79688236f42905450bdf93f40b1 เข้ามาใน integration branch โดยรักษา Git merge provenance
+- [x] ตรวจ package scripts, dependency metadata, installers และ test suite inventory
+- [x] รันทดสอบ upstream suite: 790 passed / 1 failed (local Swift SDK lacks x86_64 compatibility libraries) / 17 skipped
+- [ ] จัดทำ source-to-localization inventory (ขั้นตอนถัดไป)
 
 ### Phase 2 — Localization architecture
 - [ ] ระบุ i18n runtime และจุดเรียกข้อความทั้งหมด

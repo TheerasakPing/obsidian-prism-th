@@ -2,7 +2,7 @@
 
 รุ่นภาษาไทยที่พัฒนาต่อยอดจาก [Obsidian Prism](https://github.com/RMvdesi/obsidian-prism) สำหรับ Google Antigravity โดยมุ่งให้ **ภาษาไทยเป็นภาษาเริ่มต้น** และเลือกใช้ภาษาอังกฤษได้
 
-> **สถานะโครงการ: ตั้งต้น Repository** — โครงสร้างและเอกสารกำลังจัดทำ ยังไม่ใช่แพ็กเกจติดตั้งหรือรุ่นที่พร้อมใช้งานจริง
+> **สถานะโครงการ: นำซอร์ส upstream เข้ามาแล้ว (integration branch)** — ยังไม่ใช่รุ่นที่ผ่านการทดสอบหรือแพ็กเกจติดตั้งพร้อมใช้งาน
 
 ## เป้าหมาย
 
@@ -13,41 +13,90 @@
 - ไม่ใช้ข้อมูลจำลองเพื่ออ้างว่าฟีเจอร์ทำงานจริง
 - รักษาลิขสิทธิ์ ใบอนุญาต และเครดิตของ upstream และ third-party ทุกส่วน
 
-## ภาษา
+## รุ่นและแหล่งที่มา
 
-- `th-TH`: ภาษาเริ่มต้น
-- `en-US`: ภาษาอังกฤษ
+- Thai Edition package: `obsidian-prism-th`
+- Upstream version: `1.0.8-beta.3`
+- Audited upstream commit: `41cc4817bf6da79688236f42905450bdf93f40b1`
+- ภาษาเป้าหมาย: `th-TH` (ค่าเริ่มต้น) และ `en-US`
+- Node.js: `>=22.0.0`
 
-## โครงสร้าง
+## เริ่มต้นสำหรับนักพัฒนา
+
+```bash
+npm install
+npm run validate:locales
+npm test
+```
+
+อย่าติดตั้งลง Antigravity หลักหรือใช้ installer จนกว่า regression tests และการตรวจสอบบน host จริงจะผ่าน
+
+## ติดตั้งจากซอร์ส (สำหรับนักพัฒนาเท่านั้น)
+
+ยังไม่ใช่แพ็กเกจติดตั้งที่ผ่านการรับรอง ก่อนติดตั้งลง Antigravity จริงให้รันทดสอบทั้งหมดก่อน
+
+คำสั่ง: npm install
+คำสั่ง: npm run install:plugin
+ตรวจสอบ: node tools/install-plugin.cjs --status
+
+ตรวจผลให้แน่ใจว่า installed: true และ daemon ทำงานปกติ หากยังไม่ผ่านอย่าติดตั้งทับ environment หลัก
+
+## โครงสร้างสำคัญ
 
 - `locales/`: ข้อความแปลแยกตาม locale
-- `docs/`: แผนโครงการ แนวทางแปล และขั้นตอนนำ upstream เข้ามา
-- `scripts/`: เครื่องมือตรวจสอบความครบถ้วนของ locale
+- `i18n-core.js`, `i18n-locales.js`: ระบบ localization เดิมของ upstream ที่ต้องตรวจและต่อยอด
+- `docs/`: แผนโครงการ แนวทางแปล และบันทึกการตรวจสอบ
+- `scripts/`: เครื่องมือตรวจสอบ locale และเตรียม integration
 
 ## เอกสาร
 
 - [แผนโครงการและ PRD](docs/PROJECT_PLAN_TH.md)
 - [แนวทางการแปล](docs/LOCALIZATION_GUIDE_TH.md)
 - [การนำ upstream เข้ามาอย่างปลอดภัย](docs/UPSTREAM_INTEGRATION.md)
+- [รายงานตรวจสอบ upstream](docs/UPSTREAM_AUDIT_TH.md)
+- [QA checklist](docs/QA_CHECKLIST_TH.md)
 
 ## Upstream และใบอนุญาต
 
 ต้นทาง: [RMvdesi/obsidian-prism](https://github.com/RMvdesi/obsidian-prism)
 
-Upstream ระบุ `GPL-3.0-only` ใน `package.json` และมีเงื่อนไขการคง notices/attribution ใน `NOTICE` โปรดอ่าน [LICENSE](LICENSE), [NOTICE](NOTICE) และ [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) ก่อนนำหรือแจกจ่ายซอร์สที่ดัดแปลง
+โครงการต้นทางระบุ `GPL-3.0-only` โปรดอ่าน [LICENSE](LICENSE), [NOTICE](NOTICE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) และ [CITATION.cff](CITATION.cff) ก่อนนำไปใช้หรือแจกจ่ายซอร์สที่ดัดแปลง ต้องคงเครดิตและเงื่อนไขของ third-party components ตามต้นฉบับ
 
 ## สถานะการพัฒนา
 
 | งาน | สถานะ |
 |---|---|
-| สร้าง public repository | เสร็จ |
-| วางเอกสารเริ่มต้น | เสร็จ |
-| ตรวจสอบ upstream และ license | ตรวจ tree 242 ไฟล์, package metadata และบันทึก baseline SHA แล้ว; ยังต้องตรวจ dependency/vendor licenses ก่อน import |
-| นำ source code upstream เข้ามา | รอ local Git import ตาม `docs/UPSTREAM_AUDIT_TH.md` |
-| แปล UI ครบทุกจุด | ยังไม่เริ่ม |
+| สร้าง public repository และเอกสารตั้งต้น | เสร็จ |
+| ตรวจสอบ upstream tree และบันทึก baseline SHA | เสร็จ |
+| นำ source upstream เข้ามาใน integration branch | เสร็จ — 242 upstream files, merge ยังอยู่บน integration branch |
+| ตรวจ dependencies และรันทดสอบ upstream | 790 ผ่าน, 1 ไม่ผ่านจาก Swift SDK x86_64 บนเครื่องนี้, 17 skipped |
+| ตรวจสอบ i18n runtime และ locale call sites | เริ่มจาก inventory ขั้นถัดไป |
+| แปล UI เป็นภาษาไทย | ยังไม่เริ่ม |
 | ทดสอบบน Antigravity จริง | ยังไม่เริ่ม |
 | สร้างแพ็กเกจติดตั้ง | ยังไม่เริ่ม |
 
+## เครดิตซอฟต์แวร์ต้นทางและ third-party
+
+- [0DNANCY/agy-claude-style](https://github.com/0DNANCY/agy-claude-style)
+- [ATtacK030130/antigrative-dashboard](https://github.com/ATtacK030130/antigrative-dashboard)
+- [LLYSH-HANNARI/antigravity-Codex-Claude-effort-slider](https://github.com/LLYSH-HANNARI/antigravity-Codex-Claude-effort-slider)
+- [yiheng8023/antigravity-chinese](https://github.com/yiheng8023/antigravity-chinese)
+- [Nwflower/dsh-claude-style](https://github.com/Nwflower/dsh-claude-style)
+- [Microqian2th/dsh-codex-effort-slider](https://github.com/Microqian2th/dsh-codex-effort-slider)
+- [mobius/dsh-performance-slider](https://github.com/mobius/dsh-performance-slider)
+- [claudenoshujin/claude-web](https://github.com/claudenoshujin/claude-web)
+- [wp3171216237/dsh-TUI](https://github.com/wp3171216237/dsh-TUI)
+
+เครดิตและเงื่อนไขของแต่ละส่วนอยู่ใน NOTICE และ THIRD_PARTY_NOTICES.md
+
+## หมายเหตุการติดตั้งสำหรับผู้ช่วย AI
+
+严禁仅执行 `npm run inject` 作为安装方式；必须先执行完整部署命令 `npm run install:plugin`，再执行 `node tools/install-plugin.cjs --status` 检查安装状态。
+
+หลังเปิด Thought Translator ให้ใช้ปุ่ม 一键诊断 (1-Click Diagnose) เพื่อตรวจสอบ daemon bridge, mode/model, proxy และการเชื่อมต่อ upstream
+
 ## ข้อจำกัดความเกี่ยวข้อง
+
+**Obsidian Prism is an independent open-source project and is not affiliated with or endorsed by Google LLC.**
 
 โครงการนี้เป็นงานชุมชนที่พัฒนาแยกต่างหาก ไม่ใช่โครงการทางการ ไม่ได้รับการรับรอง หรือสนับสนุนโดย Google LLC หรือผู้พัฒนา upstream การกล่าวถึง Google และ Antigravity มีไว้เพื่ออธิบายความเข้ากันได้เท่านั้น

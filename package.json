@@ -1,18 +1,47 @@
 {
-  "name": "obsidian-prism-th",
-  "version": "0.1.0",
-  "private": false,
-  "description": "Thai-first community localization edition of Obsidian Prism for Google Antigravity",
+  "name": "obsidian-prism",
+  "version": "1.0.8-beta.3",
+  "description": "Obsidian Prism community Thai-first localization edition for Google Antigravity",
   "license": "GPL-3.0-only",
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "scripts": {
-    "validate:locales": "node scripts/validate-locales.mjs"
-  },
+  "author": "Thai Edition community contributors; based on Obsidian Prism by RMvdesi",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/TheerasakPing/obsidian-prism-th.git"
   },
-  "upstream": "https://github.com/RMvdesi/obsidian-prism"
+  "homepage": "https://github.com/TheerasakPing/obsidian-prism-th",
+  "bugs": {
+    "url": "https://github.com/TheerasakPing/obsidian-prism-th/issues"
+  },
+  "upstream": {
+    "repository": "https://github.com/RMvdesi/obsidian-prism",
+    "version": "1.0.8-beta.3",
+    "commit": "41cc4817bf6da79688236f42905450bdf93f40b1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "keywords": [
+    "antigravity",
+    "obsidian-prism",
+    "thai",
+    "localization",
+    "optical-ui"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs test/gates/*.test.mjs",
+    "test:gates": "node scripts/run-tests.mjs --gates",
+    "test:fast": "node scripts/run-tests.mjs --fast",
+    "workbench": "node workbench/server.cjs",
+    "inject": "node inject.js",
+    "watch": "node inject.js --watch",
+    "daemon": "node sidecars/daemon/main.mjs",
+    "remove": "node remove.js",
+    "install:plugin": "node tools/install-plugin.cjs --install",
+    "archive:conversations": "node sidecars/daemon/conversation-archive.mjs",
+    "clean:legacy": "node tools/patch-asar.cjs --clean-legacy",
+    "build:installer": "node scripts/build-installer.mjs --out dist/obsidian-prism-installer.exe",
+    "build:macos": "node scripts/build-macos.mjs",
+    "validate:locales": "node scripts/validate-locales.mjs"
+  }
 }

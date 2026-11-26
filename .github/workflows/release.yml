@@ -1,0 +1,149 @@
+name: Release Installers
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-windows:
+    if: github.event.repository.private == false
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Build standalone Windows installer
+        run: npm run build:installer
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-installer
+          path: dist/obsidian-prism-installer.exe
+
+  build-macos:
+    if: github.event.repository.private == false
+    runs-on: macos-26-intel
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Build Universal macOS App & DMG
+        run: node scripts/build-macos.mjs --out dist/Obsidian-Prism-macOS-universal.dmg
+      - uses: actions/upload-artifact@v7
+        with:
+          name: macos-dmg
+          path: dist/*.dmg
+
+  build-linux:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Build portable Linux tarball
+        run: node scripts/build-linux.mjs --out dist/obsidian-prism-linux-portable.tar.gz
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-portable
+          path: dist/obsidian-prism-linux-portable.tar.gz
+
+  publish-release:
+    if: github.event.repository.private == false
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+      - name: Generate release notes from CHANGELOG.md
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          REPO_SLUG: ${{ github.repository }}
+        run: |
+          VERSION="${TAG_NAME#v}"
+          SECTION_BODY="$(awk -v ver="${VERSION}" '
+            {
+              trimmed = $0
+              sub(/^[[:space:]]+/, "", trimmed)
+            }
+            index(trimmed, "## [" ver "]") == 1 || index(trimmed, "## [v" ver "]") == 1 { found=1; next }
+            found && index(trimmed, "## [") == 1 { exit }
+            found { print }
+          ' CHANGELOG.md)"
+
+          {
+            printf '## Obsidian Prism %s\n\n' "${TAG_NAME}"
+            if [ -n "${SECTION_BODY}" ]; then
+              printf '%s\n\n' "${SECTION_BODY}"
+            else
+              printf 'Release %s of Obsidian Prism. See CHANGELOG.md for details.\n\n' "${TAG_NAME}"
+            fi
+            cat <<'EOF'
+          ### Standalone Installers / 独立安装包
+          - **Windows (`x64`)**: `obsidian-prism-installer.exe`
+          - **macOS (`Universal: Apple Silicon + Intel`)**: `Obsidian-Prism-macOS-universal.dmg`
+          - **Linux (`Portable Archive`)**: `obsidian-prism-linux-portable.tar.gz`
+          EOF
+            printf '\n**Full Changelog**: [CHANGELOG.md](https://github.com/%s/blob/%s/CHANGELOG.md) · [Commits (%s)](https://github.com/%s/commits/%s)\n' \
+              "${REPO_SLUG}" "${TAG_NAME}" "${TAG_NAME}" "${REPO_SLUG}" "${TAG_NAME}"
+          } > release-notes.md
+      - name: Generate SHA256SUMS.txt
+        run: |
+          (
+            cd artifacts
+            sha256sum -- windows-installer/* macos-dmg/* linux-portable/* | sed -E 's|^([0-9a-fA-F]{64}  ).*/|\1|' > SHA256SUMS.txt
+          )
+          cat artifacts/SHA256SUMS.txt
+      - name: Create or Update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+          REPO_SLUG: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          PRERELEASE_CREATE_ARGS=()
+          PRERELEASE_EDIT_ARGS=(--prerelease=false)
+          if [[ "${TAG_NAME#v}" == *-* ]]; then
+            PRERELEASE_CREATE_ARGS=(--prerelease)
+            PRERELEASE_EDIT_ARGS=(--prerelease)
+          fi
+          if gh release view "${TAG_NAME}" --repo "${REPO_SLUG}" >/dev/null 2>&1; then
+            gh release upload "${TAG_NAME}" \
+              artifacts/windows-installer/* \
+              artifacts/macos-dmg/* \
+              artifacts/linux-portable/* \
+              artifacts/SHA256SUMS.txt \
+              --clobber \
+              --repo "${REPO_SLUG}"
+            gh release edit "${TAG_NAME}" \
+              --repo "${REPO_SLUG}" \
+              --target "${COMMIT_SHA}" \
+              --title "Obsidian Prism ${TAG_NAME}" \
+              --notes-file release-notes.md \
+              "${PRERELEASE_EDIT_ARGS[@]}"
+          else
+            gh release create "${TAG_NAME}" \
+              --repo "${REPO_SLUG}" \
+              --target "${COMMIT_SHA}" \
+              artifacts/windows-installer/* \
+              artifacts/macos-dmg/* \
+              artifacts/linux-portable/* \
+              artifacts/SHA256SUMS.txt \
+              --title "Obsidian Prism ${TAG_NAME}" \
+              --notes-file release-notes.md \
+              "${PRERELEASE_CREATE_ARGS[@]}"
+          fi
