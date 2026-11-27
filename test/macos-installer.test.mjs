@@ -324,6 +324,7 @@ test('macOS Swift installer & LaunchAgent contracts enforce KeepAlive <true/>, n
 
   assert.match(setupSwift, /<key>KeepAlive<\/key>\s*<true\/>/, 'macOS LaunchAgent must set KeepAlive to <true/>');
   assert.ok(setupSwift.includes('--plugin-dir'), 'macOS Setup supports --plugin-dir');
+  assert.match(setupSwift, /<key>CFBundleDevelopmentRegion<\\/key>\\s*<string>th<\\/string>/, 'macOS launcher must declare Thai as its development region');
   assert.ok(setupSwift.includes('.gemini/config/plugins') || cdpSwift.includes('.gemini/config/plugins'), 'Deploys to standard native plugin dir');
   assert.ok(cdpSwift.includes('ELECTRON_RUN_AS_NODE'), 'macOS CdpClient boots full 5-channel Sidecar via ELECTRON_RUN_AS_NODE=1');
   assert.ok(cdpSwift.includes('Antigravity Helper'), 'macOS CdpClient prefers Antigravity Helper binary to avoid second Dock icon');
