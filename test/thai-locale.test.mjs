@@ -28,15 +28,17 @@ test('Thai locale has complete table shape, translated UI coverage, and Thai dyn
     assert.ok(row[8].trim(), `${key} Thai/fallback slot must not be empty`);
   }
   const ui = locales.getUiStrings('th-TH');
+  const payloadBytes = Buffer.byteLength(cdp.buildInjectExpression({ ...cdp.DEFAULT_CONFIG, language: 'th-TH' }, { bundleCachePath: '' }), 'utf8');
+  assert.ok(payloadBytes <= 546954, `Thai Channel 1 payload must stay <= 546954 bytes, got ${payloadBytes}`);
   assert.equal(ui.setLanguageTitle, 'ภาษาของส่วนติดต่อ');
   assert.equal(ui.tabOverview, 'ภาพรวม');
-  assert.equal(ui.kpiCacheHit, 'อัตราแคชฮิต');
-  assert.equal(ui.swarmBadge, 'เอเจนต์กลุ่ม');
+  assert.equal(ui.kpiCacheHit, 'แคชฮิต');
+  assert.equal(ui.swarmBadge, 'กลุ่ม AI');
   assert.equal(ui.optPlaceholderHost, 'โฮสต์');
   assert.equal(ui.thoughtFieldBaseUrl, 'URL พื้นฐาน');
   assert.equal(ui.thoughtFieldApiKey, 'คีย์ API');
-  assert.equal(ui.omniInsertMention, 'แทรกเป็น @กล่าวถึง');
-  assert.equal(ui.omniViewWorkbench, 'มุมมองเวิร์กเบนช์');
+  assert.equal(ui.omniInsertMention, 'แทรก @mention');
+  assert.equal(ui.omniViewWorkbench, 'หน้าทำงาน');
   assert.equal(ui.swarmSplitSub(60, 40), 'แชตหลัก 60% · เอเจนต์ 40%');
   assert.equal(ui.showMoreN(2), 'แสดงเพิ่มอีก 2 รายการ');
 });

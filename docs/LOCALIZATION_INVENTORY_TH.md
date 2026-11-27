@@ -13,7 +13,7 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 - `UI_TABLE` มี 345 message keys; มีคอลัมน์ภาษาไทยครบ 345 แถว โดยแปลเป็นไทย 333 keys (96.5%); อีก 12 keys คงชื่อแบรนด์/ชื่อธีม/ชื่อฟอนต์/หน่วยเป็นภาษาเดิม
 - `th-TH` ถูก normalize เป็นภาษาไทยแล้ว; UI keys ที่แปลแล้วจะแสดงไทย ส่วนคีย์ที่ยังไม่แปลใช้ English fallback เพื่อป้องกันข้อความว่าง
 - Settings language selector, settings schema, CDP config validators และ tests รองรับ locale ที่ 9 (`th-TH`) แล้ว
-- Runtime มี early-boot locale slice 77 keys; เพิ่ม Thai แล้วและผ่าน Channel 1 size gate (546,895 bytes จากเพดาน 546,954 bytes)
+- Runtime มี early-boot locale slice 77 keys; เพิ่ม Thai แล้วและผ่าน Channel 1 size gate (546,914 bytes จากเพดาน 546,954 bytes)
 
 ## 2. Localization architecture map
 
@@ -47,10 +47,10 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 - `getUiStrings('th-TH')` resolves to Thai UI copy; brand/technical identifiers remain in their canonical form; dynamic Swarm and Show More formatters have Thai variants.
 - `locales/en-US/messages.json` and `locales/th-TH/messages.json`: 18 keys each; locale parity script passes, but these scaffold JSON catalogs are not yet the source of the main UI dictionary.
 - Main UI consumers: `ui-runtime.js`, `settings-panel.js`, `home-studio-panel.js`, and `sidecars/daemon/main.mjs`; independent locale consumers `usage-core.js`, `conversation-archive.mjs`, and Pulse fallback now have Thai support too. Third-party Pulse compatibility UI and Antigravity host UI remain separate scope.
-- Main UI boot payload: 77 runtime keys, Thai slice JSON size 3,187 bytes; Channel 1 generated payload 546,946 bytes (under the 546,954-byte hard limit).
-- Focused Thai/i18n regression run (2026-11-27): 57 passed, 0 failed, 0 skipped.
-- Latest full `npm test` run: one known failure in the macOS universal `.app` build test; Swift linker cannot find x86_64 `swiftCompatibility56` and `swiftCompatibilityConcurrency` libraries in the active Command Line Tools SDK. The failure occurs in `compileUniversalSwift()` while compiling the x86_64 watcher target, not in Thai localization.
-- Previous complete full-suite baseline: 812 tests; 794 passed, 1 failed, 17 skipped. Additional vendor-locale regression baseline: 124 passed, 0 failed. The known macOS universal Swift build limitation is unchanged.
+- Main UI boot payload: 77 runtime keys, Thai slice JSON size 2,928 bytes (strings 2,901 bytes); Channel 1 generated payload 546,914 bytes (under the 546,954-byte hard limit).
+- Focused Thai/i18n regression run (2026-11-27): 28 passed, 0 failed, 0 skipped.
+- Latest full `npm test` run (2026-11-27): 812 tests; 794 passed, 1 failed, 17 skipped. The only failure is the macOS universal `.app` build test: Swift linker cannot find x86_64 `swiftCompatibility56` and `swiftCompatibilityConcurrency` libraries in the active Command Line Tools SDK. It fails in `compileUniversalSwift()` while compiling the x86_64 watcher target, not in Thai localization.
+- Additional vendor-locale regression baseline: 124 passed, 0 failed. The known macOS universal Swift build limitation is unchanged.
 
 ## 4. Critical compatibility constraints
 
