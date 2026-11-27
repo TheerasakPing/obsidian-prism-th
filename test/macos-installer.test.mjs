@@ -310,6 +310,7 @@ test('buildIcns generates a valid Apple ICNS container with PNG icon chunks', ()
 test('generateInfoPlist generates valid bundle metadata and escapes special XML characters', () => {
   const plist = generateInfoPlist('1.2.3-beta&1<test>');
   assert.ok(plist.includes('<key>CFBundleExecutable</key>'));
+  assert.ok(plist.includes('<key>CFBundleDevelopmentRegion</key>\\n  <string>th</string>'), 'Thai Edition macOS bundle must declare Thai as its development region');
   assert.ok(plist.includes('<string>Obsidian Prism</string>'));
   assert.ok(plist.includes('<string>io.github.rmvdesi.obsidian-prism</string>'));
   assert.ok(plist.includes('<key>NSAllowsLocalNetworking</key>'));
