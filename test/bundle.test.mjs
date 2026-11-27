@@ -3212,9 +3212,7 @@ test('v1.0.1 compiler safety fixes, unified shared string pool (< 690 KiB CI bud
     'vendor/thought-translator/thought-settings-ui.js must not appear in cdp.RUNTIME_PARTS'
   );
   const cacheStatsBeforeWarm = cdp.getBundleCacheStats();
-  const tWarm0 = performance.now();
   const expr2 = cdp.buildInjectExpression({ palette: 'warm', motionLevel: 'subtle', accentTone: 'iris' });
-  const warmElapsed = performance.now() - tWarm0;
   const cacheStatsAfterWarm = cdp.getBundleCacheStats();
   // Deterministic verification that warm config rebuild reuses the compiled template cache
   // without re-running unified compilation, JS mangling, or CSS minification.
@@ -3233,9 +3231,9 @@ test('v1.0.1 compiler safety fixes, unified shared string pool (< 690 KiB CI bud
     cacheStatsBeforeWarm.cssMinifyRuns,
     'Warm config rebuild must not re-minify style.css'
   );
-  // Relax absolute latency bound from 35ms to 150ms to avoid GC/CPU-steal flakes on shared
-  // Windows/macOS CI runners while still catching accidental full-compile regressions (~800ms+).
-  assert.ok(warmElapsed < 150, `Expected warm config rebuild < 150ms, got ${warmElapsed.toFixed(2)}ms`);
+  // Do not gate shared CI on wall-clock latency: CPU scheduling and filesystem noise
+  // vary across runners. The counters above deterministically prove the warm path avoids
+  // unified compilation, JS mangling, and CSS minification.
   assert.ok(expr2.includes('"palette":"warm"'));
   assert.ok(expr2.includes('"accentTone":"iris"'));
 
