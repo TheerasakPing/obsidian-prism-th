@@ -310,7 +310,7 @@ test('buildIcns generates a valid Apple ICNS container with PNG icon chunks', ()
 test('generateInfoPlist generates valid bundle metadata and escapes special XML characters', () => {
   const plist = generateInfoPlist('1.2.3-beta&1<test>');
   assert.ok(plist.includes('<key>CFBundleExecutable</key>'));
-  assert.match(plist, /<key>CFBundleDevelopmentRegion<\\/key>\\s*<string>th<\\/string>/, 'Thai Edition macOS bundle must declare Thai as its development region');
+  assert.ok(plist.includes(['<key>CFBundleDevelopmentRegion</key>', '  <string>th</string>'].join('\\n')), 'Thai Edition macOS bundle must declare Thai as its development region');
   assert.ok(plist.includes('<string>Obsidian Prism</string>'));
   assert.ok(plist.includes('<string>io.github.rmvdesi.obsidian-prism</string>'));
   assert.ok(plist.includes('<key>NSAllowsLocalNetworking</key>'));
@@ -324,7 +324,7 @@ test('macOS Swift installer & LaunchAgent contracts enforce KeepAlive <true/>, n
 
   assert.match(setupSwift, /<key>KeepAlive<\/key>\s*<true\/>/, 'macOS LaunchAgent must set KeepAlive to <true/>');
   assert.ok(setupSwift.includes('--plugin-dir'), 'macOS Setup supports --plugin-dir');
-  assert.match(setupSwift, /<key>CFBundleDevelopmentRegion<\\/key>\\s*<string>th<\\/string>/, 'macOS launcher must declare Thai as its development region');
+  assert.ok(setupSwift.includes(['<key>CFBundleDevelopmentRegion</key>', '          <string>th</string>'].join('\\n')), 'macOS launcher must declare Thai as its development region');
   assert.ok(setupSwift.includes('.gemini/config/plugins') || cdpSwift.includes('.gemini/config/plugins'), 'Deploys to standard native plugin dir');
   assert.ok(cdpSwift.includes('ELECTRON_RUN_AS_NODE'), 'macOS CdpClient boots full 5-channel Sidecar via ELECTRON_RUN_AS_NODE=1');
   assert.ok(cdpSwift.includes('Antigravity Helper'), 'macOS CdpClient prefers Antigravity Helper binary to avoid second Dock icon');
