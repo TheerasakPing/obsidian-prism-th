@@ -70,9 +70,9 @@ npm test
 | สร้าง public repository และเอกสารตั้งต้น | เสร็จ |
 | ตรวจสอบ upstream tree และบันทึก baseline SHA | เสร็จ |
 | นำ source upstream เข้ามาใน integration branch | เสร็จ — 242 upstream files, merge ยังอยู่บน integration branch |
-| ตรวจ dependencies และรันทดสอบ upstream | 790 ผ่าน, 1 ไม่ผ่านจาก Swift SDK x86_64 บนเครื่องนี้, 17 skipped |
+| ตรวจ dependencies และรันทดสอบ upstream | ดูผล CI matrix ล่าสุดใน `docs/UPSTREAM_AUDIT_TH.md` |
 | ตรวจสอบ i18n runtime และ locale call sites | เสร็จ — ดู `docs/LOCALIZATION_INVENTORY_TH.md` |
-| เพิ่มภาษาไทยใน UI runtime | เสร็จในระดับ code — 329/345 keys (95.4%); รอ host QA |
+| เพิ่มภาษาไทยใน UI runtime | เสร็จในระดับ code — 333/345 keys (96.5%); รอ host QA |
 | แปล UI เป็นภาษาไทย | ยังไม่เริ่ม |
 | ทดสอบบน Antigravity จริง | ยังไม่เริ่ม |
 | สร้างแพ็กเกจติดตั้ง | ยังไม่เริ่ม |
@@ -93,9 +93,9 @@ npm test
 
 ## หมายเหตุการติดตั้งสำหรับผู้ช่วย AI
 
-严禁仅执行 `npm run inject` 作为安装方式；必须先执行完整部署命令 `npm run install:plugin`，再执行 `node tools/install-plugin.cjs --status` 检查安装状态。
+ห้ามใช้ `npm run inject` เพียงอย่างเดียวในการติดตั้ง ต้องใช้คำสั่งติดตั้งเต็มรูปแบบ `npm run install:plugin` ก่อน จากนั้นตรวจสถานะด้วย `node tools/install-plugin.cjs --status`
 
-หลังเปิด Thought Translator ให้ใช้ปุ่ม 一键诊断 (1-Click Diagnose) เพื่อตรวจสอบ daemon bridge, mode/model, proxy และการเชื่อมต่อ upstream
+หลังเปิด Thought Translator ให้ใช้ปุ่ม “วินิจฉัยในคลิกเดียว” (1-Click Diagnose) เพื่อตรวจสอบ daemon bridge, mode/model, proxy และการเชื่อมต่อ upstream
 
 ## ข้อจำกัดความเกี่ยวข้อง
 
@@ -104,4 +104,4 @@ npm test
 โครงการนี้เป็นงานชุมชนที่พัฒนาแยกต่างหาก ไม่ใช่โครงการทางการ ไม่ได้รับการรับรอง หรือสนับสนุนโดย Google LLC หรือผู้พัฒนา upstream การกล่าวถึง Google และ Antigravity มีไว้เพื่ออธิบายความเข้ากันได้เท่านั้น
 
 
-**Thai Edition status:** locale `th-TH` is the default; 329/345 main UI strings are translated, with 16 brand/technical labels intentionally unchanged. Host-application QA is still pending.
+**Thai Edition status:** locale `th-TH` is the default; 333/345 main UI strings are translated, with 16 brand/technical labels intentionally unchanged. Host-application QA is still pending.
