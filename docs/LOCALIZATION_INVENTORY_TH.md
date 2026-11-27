@@ -49,7 +49,7 @@ Upstream baseline: `41cc4817bf6da79688236f42905450bdf93f40b1`
 - Main UI consumers: `ui-runtime.js`, `settings-panel.js`, `home-studio-panel.js`, and `sidecars/daemon/main.mjs`; independent locale consumers `usage-core.js`, `conversation-archive.mjs`, and Pulse fallback now have Thai support too. Third-party Pulse compatibility UI and Antigravity host UI remain separate scope.
 - Main UI boot payload: 77 runtime keys, Thai slice JSON size 2,928 bytes (strings 2,901 bytes); Channel 1 generated payload 546,914 bytes (under the 546,954-byte hard limit).
 - Focused Thai/i18n regression run (2026-11-27): 28 passed, 0 failed, 0 skipped.
-- Latest full `npm test` run (2026-11-27): 812 tests; 794 passed, 1 failed, 17 skipped. The only failure is the macOS universal `.app` build test: Swift linker cannot find x86_64 `swiftCompatibility56` and `swiftCompatibilityConcurrency` libraries in the active Command Line Tools SDK. It fails in `compileUniversalSwift()` while compiling the x86_64 watcher target, not in Thai localization.
+- GitHub Actions CI matrix (2026-11-27, Node.js 22; 812 tests per runner): Ubuntu 24.04 — 794 passed, 0 failed, 18 skipped; macOS 26 Intel — 795 passed, 0 failed, 17 skipped; Windows — 810 passed, 1 failed, 1 skipped. The Windows-only failure is a wall-clock cache rebuild assertion (205.76 ms against a 150 ms limit); deterministic cache counters in that same test confirm no unified recompile, re-mangling, or CSS minification. CodeQL passed. The timing gate is being removed because shared-runner scheduling is not a stable correctness signal.
 - Additional vendor-locale regression baseline: 124 passed, 0 failed. The known macOS universal Swift build limitation is unchanged.
 
 ## 4. Critical compatibility constraints
