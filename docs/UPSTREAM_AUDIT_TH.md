@@ -71,23 +71,22 @@ package.json คง package identity และ version ของ upstream (obsid
 - Brand/license contract test: ผ่าน
 - README installation/diagnostics contract test: ผ่าน
 
-## 6. ผลทดสอบ upstream suite บนเครื่องนี้
+## 6. ผลทดสอบ CI matrix ล่าสุด
 
-คำสั่ง: npm test
+GitHub Actions, Node.js 22, วันที่ 2026-11-27 — แต่ละ runner รันทดสอบ 812 cases:
 
-ผลล่าสุด:
-- Tests: 808
-- Passed: 790
-- Failed: 1
-- Skipped: 17
-- Duration: ประมาณ 62 วินาที
+| Runner | ผ่าน | ไม่ผ่าน | ข้าม | สถานะ |
+|---|---:|---:|---:|---|
+| Ubuntu 24.04 | 794 | 0 | 18 | ผ่าน |
+| macOS 26 Intel | 795 | 0 | 17 | ผ่าน |
+| Windows | 810 | 1 | 1 | ไม่ผ่าน |
 
-Failure เดียว:
-- macOS universal .app build test ต้อง link x86_64 Swift binary
-- เครื่องนี้ใช้ Command Line Tools SDK ที่มี Swift compatibility libraries เฉพาะ arm64, arm64e
-- linker จึงไม่พบ __swift_FORCE_LOAD_$_swiftCompatibility56 และ __swift_FORCE_LOAD_$_swiftCompatibilityConcurrency สำหรับ x86_64
+- CodeQL Security Analysis: ผ่าน
+- Windows failure: การทดสอบ warm config rebuild วัดได้ 205.76 ms เกินเกณฑ์ตายตัว 150 ms
+- ตัวนับ cache ในการทดสอบเดียวกันยืนยันว่าไม่มีการ compile unified bundle, JS mangling หรือ CSS minification ซ้ำ จึงเป็น timing flake จาก shared runner ไม่ใช่หลักฐานว่า cache correctness ผิด
+- กำลังปรับ test ให้ตรวจพฤติกรรมผ่าน counters แบบ deterministic แทนการบังคับ wall-clock threshold
 
-นี่เป็นข้อจำกัดของ Swift toolchain/SDK ที่ติดตั้งในเครื่องนี้ ไม่ใช่ผลทดสอบที่ยืนยันว่า source compile ผ่านสำหรับ universal binary ต้องติดตั้ง/เลือก Xcode toolchain ที่มี universal SDK support แล้วรัน macOS build test ซ้ำก่อนออก release
+macOS CI ผ่านทั้ง suite แล้ว แต่ยังต้องทำ Host QA บน Antigravity จริงก่อนพิจารณา release
 
 ## 7. Acceptance criteria ของ Phase 1
 
@@ -97,7 +96,7 @@ Failure เดียว:
 - [x] LICENSE, NOTICE และ third-party notices คงตาม upstream
 - [x] Node.js 22 ใช้งานได้
 - [x] locale validator ผ่าน
-- [x] regression suite รันครบ 808 tests; มี 1 environment-specific macOS universal-link failure ที่ต้องแก้ toolchain ก่อน release
+- [x] CI matrix รันครบ 812 tests ต่อ runner; macOS และ Ubuntu ผ่าน ส่วน Windows มี timing assertion ที่กำลังแก้
 - [ ] macOS universal build ผ่านบน Xcode toolchain ที่รองรับ x86_64
 - [x] source-to-localization inventory ก่อนเริ่มแก้ UI (`docs/LOCALIZATION_INVENTORY_TH.md`)
 
