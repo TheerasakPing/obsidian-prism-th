@@ -981,7 +981,7 @@ enum InstallerCore {
         <plist version="1.0">
         <dict>
           <key>CFBundleDevelopmentRegion</key>
-          <string>en</string>
+          <string>th</string>
           <key>CFBundleDisplayName</key>
           <string>Antigravity Prism</string>
           <key>CFBundleExecutable</key>
