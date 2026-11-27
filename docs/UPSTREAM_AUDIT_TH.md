@@ -35,55 +35,70 @@ Release metadata: `1.0.8-beta.3`
 
 พบ `i18n-core.js` และ `i18n-locales.js` ซึ่งเป็นจุดเริ่มต้นสำหรับตรวจระบบ locale เดิมก่อนออกแบบ Thai-first resolver ห้ามสร้าง i18n runtime ซ้ำโดยยังไม่ตรวจ call sites และ fallback behavior ของ upstream
 
-## 4. ข้อสรุปด้านการนำเข้าซอร์ส
+## 4. ผลการนำเข้า source จริง
 
-**ยังไม่ได้นำ source code 242 ไฟล์เข้ามาใน repository นี้** การตรวจครั้งนี้เป็น static repository-tree และ package metadata audit เท่านั้น ไม่มีการอ้างว่าทดสอบแอปหรือทดสอบ upstream suite แล้ว
+**นำ source upstream เข้ามาแล้วใน local integration branch**:
+- Local repository: /Volumes/Data/workspace/DWB/obsidian-prism-th
+- Branch: integration/upstream-v1.0.8-beta.3
+- Upstream remote: upstream
+- Origin tracking: `origin/integration/upstream-v1.0.8-beta.3` (push สำเร็จและตั้ง upstream tracking แล้ว)
+- Commit baseline: 41cc4817bf6da79688236f42905450bdf93f40b1
+- วิธีนำเข้า: git merge --allow-unrelated-histories เพื่อรักษา commit provenance
+- Conflict ที่จัดการ: .gitignore, README.md, package.json
+- ย้าย community contribution guide ไป docs/CONTRIBUTING_TH.md เพื่อให้ผ่าน upstream repository hygiene gate
+- upstream source files ที่นำเข้ามาครบตาม tree; integration branch ถูก push ไป GitHub แล้วและตั้ง upstream tracking สำเร็จ
 
-เหตุผลที่ยังไม่ทำการคัดลอกไฟล์ผ่าน API ทีละไฟล์: upstream มีไฟล์รวมประมาณ 24.5 MiB และมี assets/binaries รวมถึง vendor และ installer หลายแพลตฟอร์ม การคัดลอกเฉพาะบางไฟล์เสี่ยงทำให้ dependency graph, installer และ license inventory ไม่ครบ ควรนำเข้าด้วย Git เพื่อรักษา commit history และ file modes
+package.json คง package identity และ version ของ upstream (obsidian-prism, 1.0.8-beta.3) เพื่อรักษาความเข้ากันได้กับ plugin manifest, installer และ updater พร้อมเพิ่ม validate:locales script และ metadata ของ Thai Edition
 
-## 5. ขั้นตอนนำเข้าที่แนะนำ
+ไฟล์ LICENSE, NOTICE และ THIRD_PARTY_NOTICES.md คงตาม upstream โดยตรง ไม่มีการแทนที่ด้วยข้อความสรุป
 
-ทำจากเครื่องพัฒนาที่มี Git และ Node.js 22 ขึ้นไป หลัง clone repository นี้ และตรวจว่า working tree สะอาด:
+## 5. การแก้ไขเพื่อให้ผ่าน macOS path validation
 
-```bash
-git status --short
-git remote add upstream https://github.com/RMvdesi/obsidian-prism.git
-git fetch upstream --tags
-git switch -c integration/upstream-v1.0.8-beta.3
-git merge --allow-unrelated-histories --no-commit 41cc4817bf6da79688236f42905450bdf93f40b1
-```
+บน macOS /tmp เป็น system symlink ไป /private/tmp ทำให้ upstream path guard ปฏิเสธ temp paths ที่ปลอดภัยใน unit tests
 
-จากนั้นจัดการไฟล์ที่ชนกันอย่างตั้งใจ:
-1. `README.md`: ใช้ README ของ Thai Edition และเพิ่ม upstream attribution/compatibility links ให้ครบ
-2. `package.json`: ใช้ upstream dependencies และ scripts เป็นฐาน แล้วคงชื่อแพ็กเกจ Thai Edition พร้อมเพิ่ม `validate:locales`
-3. `.gitignore`: รวมกฎของทั้งสอง repository โดยไม่ลบกฎที่ป้องกัน secrets/build artifacts
-4. `LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES.md`: ตรวจ diff และคงข้อความ upstream/third-party ตามต้นฉบับ ห้ามเขียนทับแบบย่อ
-5. เก็บ locale files และเอกสาร Thai Edition ไว้
+แก้ไข helper ใน:
+- remove.js
+- tools/install-plugin.cjs
+- vendor/wallpaper/wallpaper-service.mjs
 
-หลัง resolve conflicts:
+หลักการแก้: อนุญาตเฉพาะ system temp-root alias ที่ OS กำหนดเป็น trusted boundary แต่ยังตรวจ symlink ใน path components ใต้ root และคง redline/path restrictions เดิม
 
-```bash
-git add -A
-git status
-git commit -m "chore: import upstream Obsidian Prism v1.0.8-beta.3"
-npm ci
-npm test
-npm run validate:locales
-```
+ผลทดสอบเฉพาะ:
+- test/gates/repo-hygiene.test.mjs: 3 passed
+- test/uninstall-and-storage.test.mjs: 8 passed
+- Wallpaper service และ red-team tests ที่เลือก: 9 passed
+- Thai/English locale validation: 18 keys ต่อภาษา, parity ผ่าน
+- Brand/license contract test: ผ่าน
+- README installation/diagnostics contract test: ผ่าน
 
-อย่า push หรือสร้าง release จนกว่าการตรวจ license, dependency audit และ upstream tests จะเสร็จ
+## 6. ผลทดสอบ CI matrix ล่าสุด
 
-## 6. Acceptance criteria ของ Phase 1
+GitHub Actions, Node.js 22, วันที่ 2026-11-27 — แต่ละ runner รันทดสอบ 812 cases:
 
-- [ ] source tree จาก commit ที่ระบุครบ
-- [ ] upstream history/commit provenance ตรวจสอบย้อนกลับได้
-- [ ] package scripts และ dependencies ไม่สูญหาย
-- [ ] LICENSE, NOTICE และ third-party notices ผ่านการตรวจ diff
-- [ ] `npm ci` ผ่านบน Node.js 22+
-- [ ] `npm test` ผ่าน พร้อมบันทึก log จริง
-- [ ] locale validator ผ่าน
-- [ ] มี source-to-localization inventory ก่อนเริ่มแก้ UI
+| Runner | ผ่าน | ไม่ผ่าน | ข้าม | สถานะ |
+|---|---:|---:|---:|---|
+| Ubuntu 24.04 | 794 | 0 | 18 | ผ่าน |
+| macOS 26 Intel | 795 | 0 | 17 | ผ่าน |
+| Windows | 810 | 1 | 1 | ไม่ผ่าน |
 
+- CodeQL Security Analysis: ผ่าน
+- Windows failure: การทดสอบ warm config rebuild วัดได้ 205.76 ms เกินเกณฑ์ตายตัว 150 ms
+- ตัวนับ cache ในการทดสอบเดียวกันยืนยันว่าไม่มีการ compile unified bundle, JS mangling หรือ CSS minification ซ้ำ จึงเป็น timing flake จาก shared runner ไม่ใช่หลักฐานว่า cache correctness ผิด
+- กำลังปรับ test ให้ตรวจพฤติกรรมผ่าน counters แบบ deterministic แทนการบังคับ wall-clock threshold
+
+macOS CI ผ่านทั้ง suite แล้ว แต่ยังต้องทำ Host QA บน Antigravity จริงก่อนพิจารณา release
+
+## 7. Acceptance criteria ของ Phase 1
+
+- [x] source tree จาก commit ที่ระบุถูกนำเข้ามาใน integration branch
+- [x] upstream commit provenance ตรวจสอบย้อนกลับได้
+- [x] package scripts และ installer source ถูกนำเข้าครบ
+- [x] LICENSE, NOTICE และ third-party notices คงตาม upstream
+- [x] Node.js 22 ใช้งานได้
+- [x] locale validator ผ่าน
+- [x] CI matrix รันครบ 812 tests ต่อ runner; macOS และ Ubuntu ผ่าน ส่วน Windows มี timing assertion ที่กำลังแก้
+- [ ] macOS universal build ผ่านบน Xcode toolchain ที่รองรับ x86_64
+- [x] source-to-localization inventory ก่อนเริ่มแก้ UI (`docs/LOCALIZATION_INVENTORY_TH.md`)
 
 ## 7. สคริปต์เตรียม import
 
@@ -94,4 +109,4 @@ npm run validate:locales
 - สร้าง branch แยก `integration/upstream-v1.0.8-beta.3`
 - merge แบบไม่ commit เพื่อให้ตรวจและแก้ conflict ด้วยคนก่อน
 
-สคริปต์นี้ **ยังไม่ได้ถูก execute** ใน environment ของผู้ใช้ และจะไม่ push หรือสร้าง release เอง การ execute ต้องทำจาก local clone ที่มี Git พร้อมตรวจ conflict ก่อน commit
+สคริปต์นี้ถูก execute แล้วบน local clone; merge conflict ถูกแก้ไขและ source import อยู่ใน integration branch โดยยังไม่ push หรือสร้าง release

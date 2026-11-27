@@ -3,7 +3,7 @@
 - Repository: `TheerasakPing/obsidian-prism-th`
 - Upstream: `RMvdesi/obsidian-prism`
 - เป้าหมายภาษา: Thai-first (`th-TH`) พร้อม English (`en-US`)
-- สถานะ: Initial planning / repository scaffold
+- สถานะ: Upstream integration pushed; localization architecture inventory complete; Thai UI implementation not yet started
 
 ## 1. วิสัยทัศน์
 
@@ -58,13 +58,14 @@
 
 ### Phase 1 — Upstream baseline
 - [x] ตรวจ upstream tree, package metadata และบันทึก baseline SHA
-- [ ] นำ source ที่ได้รับอนุญาตเข้ามาโดยรักษาประวัติ/attribution ตามความเหมาะสม
-- [ ] ตรวจ package scripts, dependencies, installers และ test suite
-- [ ] รันทดสอบ upstream baseline ก่อนแก้ไข
-- [ ] จัดทำ source-to-localization inventory
+- [x] นำ source upstream commit 41cc4817bf6da79688236f42905450bdf93f40b1 เข้ามาใน integration branch โดยรักษา Git merge provenance
+- [x] ตรวจ package scripts, dependency metadata, installers และ test suite inventory
+- [x] รันทดสอบ upstream suite: 790 passed / 1 failed (local Swift SDK lacks x86_64 compatibility libraries) / 17 skipped
+- [x] จัดทำ source-to-localization inventory (`docs/LOCALIZATION_INVENTORY_TH.md`)
 
 ### Phase 2 — Localization architecture
-- [ ] ระบุ i18n runtime และจุดเรียกข้อความทั้งหมด
+- [x] ระบุ i18n runtime และจุดเรียกข้อความหลัก; บันทึก architecture map และ counts ใน `docs/LOCALIZATION_INVENTORY_TH.md`
+- [ ] ตัดสินใจ canonical locale source (JS table หรือ JSON catalog) และกำหนด fallback contract
 - [ ] เพิ่ม locale resolver โดย default เป็น `th-TH`
 - [ ] เพิ่ม fallback `en-US`
 - [ ] ย้ายข้อความ hard-coded เป็น locale keys ทีละส่วน
@@ -111,3 +112,14 @@
 - การอัปเดต upstream อาจชนกับ patch ภาษาไทย
 
 ลดความเสี่ยงด้วย baseline tests, minimal patches, locale isolation, attribution inventory และการบันทึก upstream SHA ทุกครั้ง
+
+
+## Progress update — Thai locale runtime (2026-11-27)
+
+- [x] เพิ่ม locale `th-TH` เป็นภาษาที่ 9 และตั้งค่าเริ่มต้น Thai Edition
+- [x] แปล UI dictionary 329/345 keys (95.4%); 16 brand/technical labels คงคำต้นฉบับ
+- [x] เพิ่ม Thai ใน Home Studio, Usage Analytics, Storage Archive Workbench, Pulse fallback, Omni Viewer, Prompt Suggester, Effort Slider และ Host Workbench
+- [x] เพิ่ม regression tests; vendor/i18n targeted suite ผ่าน 124 tests (0 failures)
+- [x] Locale validation และ `git diff --check` ผ่าน
+- [ ] Full suite ล่าสุด 812 tests: 794 passed, 1 failed, 17 skipped; รายการที่ fail คือ macOS universal Swift build testที่ติดข้อจำกัด Command Line Tools SDK (x86_64 Swift compatibility libraries)
+- [ ] ทดสอบ UI บน Antigravity จริงและทำ build/install smoke test เมื่อมี Xcode เต็มชุด
